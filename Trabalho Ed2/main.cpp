@@ -7,7 +7,7 @@
 
 using namespace std;
 
-//Função merge utilizada na mergeSort
+//FunÃ§Ã£o merge utilizada na mergeSort
 
 void merge(int vetor[], int esq, int meio, int dir){
     int i,j,k;
@@ -47,11 +47,11 @@ void merge(int vetor[], int esq, int meio, int dir){
 //cout<<"teste";
 }
 
-//Função mergeSort
+//FunÃ§Ã£o mergeSort
 void mergeSort(int vetor[], int esq, int dir){
    // cout<<"teste";
     if(esq<dir){
-        int meio=esq+(dir-1)/2;
+        int meio=esq+(dir-esq)/2;
         //cout<<"teste";
         mergeSort(vetor,esq,meio);
         //cout<<"teste";
@@ -80,7 +80,7 @@ void heapify(int vetor[], int n, int i){
         heapify(vetor,n,maior);
     }
 }
-//Função HeapSort
+//FunÃ§Ã£o HeapSort
 void heapSort(int vetor[], int n){
     for(int i=n/2-1; i>=0;i--){
         heapify(vetor,n,i);
@@ -91,7 +91,7 @@ void heapSort(int vetor[], int n){
     }
 }
 
-//Função para imprimir o vetor
+//FunÃ§Ã£o para imprimir o vetor
 void printVetor(int vetor[], int n)
 {
     for (int i=0; i<n; ++i)
@@ -100,7 +100,7 @@ void printVetor(int vetor[], int n)
 }
 
 
-//Função swap
+//FunÃ§Ã£o swap
 void Troca(int *vet, int i, int j) {
 	int aux = vet[i];
 	vet[i] = vet[j];
@@ -109,7 +109,7 @@ void Troca(int *vet, int i, int j) {
 
 
 
-//Função para particionar o vetor e encontrar o pivo
+//FunÃ§Ã£o para particionar o vetor e encontrar o pivo
 int Particao(int *vet, int left, int right, float pivot) {
 	int leftPtr = left - 1;
 	int rightPtr = right;
@@ -123,7 +123,7 @@ int Particao(int *vet, int left, int right, float pivot) {
 	return (leftPtr + 1);
 }
 
-//Função recursiva QuickSort, pivo é o mais a direita
+//FunÃ§Ã£o recursiva QuickSort, pivo Ã© o mais a direita
 void QuickSort(int *vet, int left, int right){
     if(left >= right)
         return;
@@ -235,8 +235,8 @@ void QuickSortInsertion(int *vet, int left, int right){
 int main()
 {
 /*
-	//Cria vetor aleatório para teste
-	srand(time(NULL));//Função recursiva QuickSort, pivo é o mais a direita
+	//Cria vetor aleatÃ³rio para teste
+	srand(time(NULL));//FunÃ§Ã£o recursiva QuickSort, pivo Ã© o mais a direita
 	int *vet = new int[N];
 	for (int i = 0; i < N; i++)
 	{
