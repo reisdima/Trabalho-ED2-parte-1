@@ -7,9 +7,32 @@
 
 using namespace std;
 
-//FunÃ§Ã£o merge utilizada na mergeSort
+//Função GetDist utilizada na CombSort
+int GetDist(int dist){
+    dist=(dist*10)/13;
+    if(dist<1){
+        return 1;
+    }
+    return dist;
+}
+//Função CombSort
+void CombSort(int vetor[], int n){
+    int dist=n;
+    bool troca=true;
+    while(dist!=1||troca==true){
+        dist=GetDist(dist);
+        troca=false;
+        for(int i=0;i<n-dist;i++){
+            if(vetor[i]>vetor[i+dist]){
+                swap(vetor[i],vetor[i+dist]);
+                troca=true;
+            }
+        }
+    }
+}
 
-void merge(int vetor[], int esq, int meio, int dir){
+//Função merge utilizada na mergeSort
+void Merge(int vetor[], int esq, int meio, int dir){
     int i,j,k;
     int n1=meio-esq+1;
     int n2=dir-meio;
@@ -44,23 +67,17 @@ void merge(int vetor[], int esq, int meio, int dir){
         j++;
         k++;
     }
-//cout<<"teste";
 }
 
-//FunÃ§Ã£o mergeSort
-void mergeSort(int vetor[], int esq, int dir){
-   // cout<<"teste";
+//Função mergeSort
+void MergeSort(int vetor[], int esq, int dir){
     if(esq<dir){
         int meio=esq+(dir-esq)/2;
-        //cout<<"teste";
-        mergeSort(vetor,esq,meio);
-        //cout<<"teste";
-        mergeSort(vetor,meio+1,dir);
-       //cout<<"teste";
-        merge(vetor,esq,meio,dir);
-        //cout<<"teste";
+        MergeSort(vetor,esq,meio);
+        MergeSort(vetor,meio+1,dir);
+        Merge(vetor,esq,meio,dir);
     }
-    //cout<<"teste";
+
 }
 
 //Heapify utilizada na HeapSort
@@ -80,7 +97,7 @@ void heapify(int vetor[], int n, int i){
         heapify(vetor,n,maior);
     }
 }
-//FunÃ§Ã£o HeapSort
+//Função HeapSort
 void heapSort(int vetor[], int n){
     for(int i=n/2-1; i>=0;i--){
         heapify(vetor,n,i);
@@ -91,7 +108,7 @@ void heapSort(int vetor[], int n){
     }
 }
 
-//FunÃ§Ã£o para imprimir o vetor
+//Função para imprimir o vetor
 void printVetor(int vetor[], int n)
 {
     for (int i=0; i<n; ++i)
@@ -100,7 +117,7 @@ void printVetor(int vetor[], int n)
 }
 
 
-//FunÃ§Ã£o swap
+//Função swap
 void Troca(int *vet, int i, int j) {
 	int aux = vet[i];
 	vet[i] = vet[j];
@@ -109,7 +126,7 @@ void Troca(int *vet, int i, int j) {
 
 
 
-//FunÃ§Ã£o para particionar o vetor e encontrar o pivo
+//Função para particionar o vetor e encontrar o pivo
 int Particao(int *vet, int left, int right, float pivot) {
 	int leftPtr = left - 1;
 	int rightPtr = right;
@@ -123,7 +140,7 @@ int Particao(int *vet, int left, int right, float pivot) {
 	return (leftPtr + 1);
 }
 
-//FunÃ§Ã£o recursiva QuickSort, pivo Ã© o mais a direita
+//Função recursiva QuickSort, pivo é o mais a direita
 void QuickSort(int *vet, int left, int right){
     if(left >= right)
         return;
@@ -174,21 +191,6 @@ int Mediana(int *vet, int left, int right, int k){
     }
     Troca(vet, mid, right-1);
 
-    /*int *random =  new int[k];
-    for(int i = 0; i < k; i++){
-        random[i] = rand()%tamanho;
-    }
-    ManualSort(random);
-    if(vet[random[2]] < vet[random[0]]){
-        Troca(vet, random[2], random[0]);
-    }
-    if(vet[random[2]] < vet[random[1]]){
-        Troca(vet, random[2], random[1]);
-    }
-    if(vet[random[1]] < vet[random[0]]){
-        Troca(vet, random[1], random[0]);
-    }
-    return random[2];*/
 }
 
 void QuickSortMediana(int *vet, int left, int right, int k){
@@ -234,55 +236,38 @@ void QuickSortInsertion(int *vet, int left, int right){
 
 int main()
 {
+//Cria vetor aleatório para teste
 /*
-	//Cria vetor aleatÃ³rio para teste
-	srand(time(NULL));//FunÃ§Ã£o recursiva QuickSort, pivo Ã© o mais a direita
+	srand(time(NULL));//Função recursiva QuickSort, pivo é o mais a direita
 	int *vet = new int[N];
 	for (int i = 0; i < N; i++)
 	{
 		vet[i] = rand() % 100;
 	}
-
-
-
-	for (int i = 0; i < N; i++)
-	{
-	cout << vet[i] << "  ";
-	}
-	cout << endl;
-
-	QuickSort(vet, 0, N-1);
-    cout << endl;
-	for (int i = 0; i < N; i++)
-	{
-	cout << vet[i] << "  ";
-	}
 */
 
 	srand(time(NULL));
 	int *vetor = new int[N];
-
 	int *vetorPosicoes = new int[N];
-
-
-
 
 	fstream myfile;
 
 	myfile.open("ratings.csv");
 	myfile.seekg(0, ios::end);
 	int bytes = myfile.tellg();
-	cout << bytes << endl;
+	cout << "bytes: " << bytes << endl<<endl;
 	string str;
+
+	//imprimindo numeros random de 0 até bytes
 	for(int i = 0; i < 100; i++){
         cout << rand()%bytes << endl;
 	}
 	cout << endl;
 
+	//leitura de arquivo
 	for(int i=0; i < N; i++){
         int posicaoRandom = rand()%bytes;
         vetorPosicoes[i] = posicaoRandom;
-        //cout << posicaoRandom << endl;
         myfile.seekg(posicaoRandom, ios::beg);
         getline(myfile, str);
         getline(myfile, str, ',');
@@ -291,40 +276,29 @@ int main()
         iss >> aux;
         vetor[i] = aux;
 	}
+
+//funções de ordenação e função de printVetor
 /*
-	if (myfile.is_open()) {
-        //QuickSort(vetor, 0, N-1);
-        //InsertionSort(vetor, N);
-       // QuickSortInsertion(vetorPosicoes, 0, N-1);
-        for(int i = 0; i < N; i++){
-            cout << vetorPosicoes[i] << "  ";
-
-        }
-	}
-
 	cout << "\n\n";
-
     cout << "HeapSort:" << endl;
     heapSort(vetor,N);
     printVetor(vetor, N);
-
     cout << "\n";
-
     cout << "QuickSort:" << endl;
-
     QuickSort(vetor, 0, N-1);
 	cout << endl;
 	printVetor(vetor,N);
-
 	cout << "\n";
-*/
     printVetor(vetor,N);
     cout << "MergeSort:" << endl;
     int tamVet=sizeof(vetor)/sizeof(vetor[0]);
-    mergeSort(vetor,0,N-1);
+    MergeSort(vetor,0,N-1);
 	cout << endl;
 	printVetor(vetor,N);
-
+	cout << "CombSort:" << endl;
+    CombSort(vetor,N);
+    printVetor(vetor,N);
+*/
 
 
 
@@ -332,4 +306,3 @@ int main()
 
     return 0;
 }
-
