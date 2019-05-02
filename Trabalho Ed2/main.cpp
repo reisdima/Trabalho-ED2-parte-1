@@ -7,6 +7,62 @@
 
 using namespace std;
 
+//Função merge utilizada na mergeSort
+
+void merge(int vetor[], int esq, int meio, int dir){
+    int i,j,k;
+    int n1=meio-esq+1;
+    int n2=dir-meio;
+
+    int esquerda[n1], direita[n2];
+
+    for(int i=0;i<n1;i++){
+        esquerda[i]=vetor[esq+i];
+    }
+    for(j=0;j<n2;j++){
+        direita[j]=vetor[meio+1+j];
+    }
+    i=0;j=0;k=esq;
+    while(i<n1&&j<n2){
+        if(esquerda[i]<=direita[j]){
+            vetor[k]=esquerda[i];
+            i++;
+        }
+        else{
+            vetor[k]=direita[j];
+            j++;
+        }
+        k++;
+    }
+    while(i<n1){
+        vetor[k]=esquerda[i];
+        i++;
+        k++;
+    }
+    while(j<n2){
+        vetor[k]=direita[j];
+        j++;
+        k++;
+    }
+//cout<<"teste";
+}
+
+//Função mergeSort
+void mergeSort(int vetor[], int esq, int dir){
+   // cout<<"teste";
+    if(esq<dir){
+        int meio=esq+(dir-1)/2;
+        //cout<<"teste";
+        mergeSort(vetor,esq,meio);
+        //cout<<"teste";
+        mergeSort(vetor,meio+1,dir);
+       //cout<<"teste";
+        merge(vetor,esq,meio,dir);
+        //cout<<"teste";
+    }
+    //cout<<"teste";
+}
+
 //Heapify utilizada na HeapSort
 void heapify(int vetor[], int n, int i){
     int maior=i;
@@ -235,11 +291,11 @@ int main()
         iss >> aux;
         vetor[i] = aux;
 	}
-
+/*
 	if (myfile.is_open()) {
         //QuickSort(vetor, 0, N-1);
         //InsertionSort(vetor, N);
-        QuickSortInsertion(vetorPosicoes, 0, N-1);
+       // QuickSortInsertion(vetorPosicoes, 0, N-1);
         for(int i = 0; i < N; i++){
             cout << vetorPosicoes[i] << "  ";
 
@@ -257,6 +313,15 @@ int main()
     cout << "QuickSort:" << endl;
 
     QuickSort(vetor, 0, N-1);
+	cout << endl;
+	printVetor(vetor,N);
+
+	cout << "\n";
+*/
+    printVetor(vetor,N);
+    cout << "MergeSort:" << endl;
+    int tamVet=sizeof(vetor)/sizeof(vetor[0]);
+    mergeSort(vetor,0,N-1);
 	cout << endl;
 	printVetor(vetor,N);
 
