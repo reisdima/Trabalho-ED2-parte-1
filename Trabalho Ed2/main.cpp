@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include <sstream>
+#include <random>
 #define N 1000
 
 using namespace std;
@@ -14,37 +15,7 @@ void Troca(int *vet, int i, int j) {
 	vet[j] = aux;
 }
 
-/*
-int Particao(int *vet, int left, int right, int pivo){
-    int leftPtr = left;
-    int rightPtr = right;
-    cout << endl << "Entrou:" << endl;
-    cout << "L: " << leftPtr << "  R: " << rightPtr  << " Pivo: " << pivo<< endl << endl;
-    while(true){
-        while(vet[leftPtr] < pivo)
-            leftPtr++;
-        while(rightPtr > 0 && vet[rightPtr] > pivo)
-            rightPtr--;
 
-        if(leftPtr >= rightPtr){
-            break;
-        }
-        else{
-            Troca(vet, leftPtr, rightPtr);
-        }
-        cout << "L: " << leftPtr << "  R: " << rightPtr << endl;
-
-    }
-    for (int i = 0; i < N; i++)
-    {
-        cout << vet[i] << "  ";
-    }
-    cout << endl;
-    cout << "Particao: " << leftPtr << endl;
-    //Troca(vet, leftPtr, right);
-    return leftPtr;
-}
-*/
 
 //Função para particionar o vetor e encontrar o pivo
 int Particao(int *vet, int left, int right, float pivot) {
@@ -60,6 +31,7 @@ int Particao(int *vet, int left, int right, float pivot) {
 	return (leftPtr + 1);
 }
 
+//Função recursiva QuickSort, pivo é o mais a direita
 void QuickSort(int *vet, int left, int right){
     if(left >= right)
         return;
@@ -73,30 +45,118 @@ void QuickSort(int *vet, int left, int right){
     }
 }
 
+void ManualSort(int *vet, int left, int right){
+    int tamanho = right - left + 1;
+    if(tamanho <= 1)
+        return;
 
-/*
-//Função recursiva QuickSort, pivo é o mais a direita
-void QuickSort(int *vet, int left, int right) {
-	if (right <= left)
-		return;
-	else {
-		float pivot = vet[right];
-		cout << vet[right] << "teste" << endl;
-		int particao = Particao(vet, left, right, pivot);
-		QuickSort(vet, left, particao - 1);
-		QuickSort(vet, particao, right);
-	}
+    if(tamanho == 2){
+        if(vet[right] < vet[left])
+            Troca(vet, left, right);
+        return;
+    }
+    else{
+        if(vet[2] < vet[0]){
+        Troca(vet, 2, 0);
+        }
+        if(vet[2] < vet[1]){
+            Troca(vet, 2, 1);
+        }
+        if(vet[1] < vet[0]){
+            Troca(vet, 1, 0);
+        }
+    }
+
 }
-*/
+
+int Mediana(int *vet, int left, int right, int k){
+    int mid = (right+left)/2;
+    if(vet[mid] < vet[left]){
+        Troca(vet, mid, left);
+    }
+    if(vet[right] < vet[left]){
+        Troca(vet, right, left);
+    }
+    if(vet[right] < vet[mid]){
+        Troca(vet, right, mid);
+    }
+    Troca(vet, mid, right-1);
+
+    /*int *random =  new int[k];
+    for(int i = 0; i < k; i++){
+        random[i] = rand()%tamanho;
+    }
+    ManualSort(random);
+    if(vet[random[2]] < vet[random[0]]){
+        Troca(vet, random[2], random[0]);
+    }
+    if(vet[random[2]] < vet[random[1]]){
+        Troca(vet, random[2], random[1]);
+    }
+    if(vet[random[1]] < vet[random[0]]){
+        Troca(vet, random[1], random[0]);
+    }
+    return random[2];*/
+}
+
+void QuickSortMediana(int *vet, int left, int right, int k){
+    int tamanho = right - left + 1;
+    if(tamanho <= 3)
+        ManualSort(vet, left, right);
+    else{
+        int mediana = Mediana(vet, left, right, k);
+        int particao = Particao(vet, left, right, mediana);
+
+        QuickSortMediana(vet, left, particao-1, k);
+        QuickSortMediana(vet, particao, right, k);
+    }
+}
+
+
+void InsertionSort(int *vet, int n){
+    for(int i = 1; i < n; i++){
+        int pivo = vet[i];
+        int j = i - 1;
+        while(j >= 0 && vet[j] > pivo){
+            vet[j+1] = vet[j];
+            j--;
+        }
+        vet[j+1] = pivo;
+    }
+}
+
+void QuickSortInsertion(int *vet, int left, int right){
+    int tamanho = right - left + 1;
+    if(tamanho <= 10){
+        InsertionSort(vet, tamanho);
+        return;
+    }
+    int pivo = vet[right];
+    int particao = Particao(vet, left, right, pivo);
+    QuickSortInsertion(vet, left, particao-1);
+    QuickSortInsertion(vet, particao, right);
+
+}
 
 
 
 int main()
 {
+        /* Seed */
+      std::random_device rd;
 
+      /* Random number generator */
+      std::default_random_engine generator(rd());
+
+      /* Distribution on which to apply the generator */
+      std::uniform_int_distribution<long long unsigned> distribution(0,0xFFFFFFFFFFFFFFFF);
+
+      for (int i = 0; i < 10; i++) {
+          std::cout << distribution(generator) << std::endl;
+  }
 /*
 	//Cria vetor aleatório para teste
-	srand(time(NULL));
+	srand(time(NULL));//Função recursiva QuickSort, pivo é o mais a direita
 	int *vet = new int[N];
 	for (int i = 0; i < N; i++)
 	{
@@ -118,9 +178,11 @@ int main()
 	cout << vet[i] << "  ";
 	}
 */
-
+/*
 	srand(time(NULL));
 	int *vetor = new int[N];
+
+	int *vetorPosicoes = new int[N];
 
 
 
@@ -132,9 +194,15 @@ int main()
 	int bytes = myfile.tellg();
 	cout << bytes << endl;
 	string str;
+	for(int i = 0; i < 100; i++){
+        cout << rand()%bytes << endl;
+	}
+	cout << endl;
+
 	for(int i=0; i < N; i++){
         int posicaoRandom = rand()%bytes;
-        cout << posicaoRandom << endl;
+        vetorPosicoes[i] = posicaoRandom;
+        //cout << posicaoRandom << endl;
         myfile.seekg(posicaoRandom, ios::beg);
         getline(myfile, str);
         getline(myfile, str, ',');
@@ -145,20 +213,19 @@ int main()
 	}
 
 	if (myfile.is_open()) {
-        cout << "teste" << endl;
-	}
-	for(int i = 0; i < N; i++){
-        cout << vetor[i] << "  ";
+        //QuickSort(vetor, 0, N-1);
+        //InsertionSort(vetor, N);
+        QuickSortInsertion(vetorPosicoes, 0, N-1);
+        for(int i = 0; i < N; i++){
+            cout << vetorPosicoes[i] << "  ";
 
+        }
 	}
 
-    QuickSort(vetor, 0, N-1);
-	cout << endl;
-	for(int i = 0; i < N; i++){
-        cout << vetor[i] << "  ";
 
-	}
+
 
 	myfile.close();
-
+*/
+    return 0;
 }
