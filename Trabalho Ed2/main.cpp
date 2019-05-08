@@ -3,8 +3,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include <sstream>
-#include <random>
-#define N 1000
+#define N 10
 
 using namespace std;
 
@@ -70,6 +69,7 @@ void ManualSort(int *vet, int left, int right){
 }
 
 int Mediana(int *vet, int left, int right, int k){
+    /*
     int mid = (right+left)/2;
     if(vet[mid] < vet[left]){
         Troca(vet, mid, left);
@@ -80,7 +80,49 @@ int Mediana(int *vet, int left, int right, int k){
     if(vet[right] < vet[mid]){
         Troca(vet, right, mid);
     }
-    Troca(vet, mid, right-1);
+    Troca(vet, mid, right-1);*/
+
+    int *random = new int(k);
+
+    for(int i = 0; i < k; i++){
+        random[i] = rand()%N;
+    }
+    cout << "Valores random: " << endl;
+    for(int i = 0; i < k; i++){
+        cout << random[i] << "  ";
+    }
+    cout << endl << endl;
+    cout << "Valor do vetor: " << endl;
+    for(int i = 0; i < k; i++){
+        cout << vet[random[i]] << "  ";
+    }
+    cout << endl << endl;
+    QuickSort(random, 0, k-1);
+
+    for(int i = 0; i < k-1; i++){
+        for(int j = i+1; j < k; j++){
+            if(vet[random[i]] > vet[random[j]]){
+                cout << "Trocou" << endl;
+                Troca(vet, random[i], random[j]);
+            }
+        }
+    }
+    cout << "Valor do vetor: " << endl;
+    for(int i = 0; i < k; i++){
+        cout << vet[random[i]] << "  ";
+    }
+    cout << endl << endl;
+    cout << "Valor do random: " << endl;
+    for(int i = 0; i < k; i++){
+        cout << random[i] << "  ";
+    }
+    cout << endl << endl;
+    Troca(vet, random[k-2], N-1);
+    for(int i =0; i < N; i++){
+        cout << vet[i] << "  ";
+    }
+    cout << endl;
+    return vet[N-1];
 
     /*int *random =  new int[k];
     for(int i = 0; i < k; i++){
@@ -96,7 +138,10 @@ int Mediana(int *vet, int left, int right, int k){
     if(vet[random[1]] < vet[random[0]]){
         Troca(vet, random[1], random[0]);
     }
-    return random[2];*/
+    return random[2];*int *vetorTeste = new int(N);
+    for(int i = 0; i< N; i++){
+
+    }*/
 }
 
 void QuickSortMediana(int *vet, int left, int right, int k){
@@ -104,6 +149,7 @@ void QuickSortMediana(int *vet, int left, int right, int k){
     if(tamanho <= 3)
         ManualSort(vet, left, right);
     else{
+
         int mediana = Mediana(vet, left, right, k);
         int particao = Particao(vet, left, right, mediana);
 
@@ -142,18 +188,7 @@ void QuickSortInsertion(int *vet, int left, int right){
 
 int main()
 {
-        /* Seed */
-      std::random_device rd;
 
-      /* Random number generator */
-      std::default_random_engine generator(rd());
-
-      /* Distribution on which to apply the generator */
-      std::uniform_int_distribution<long long unsigned> distribution(0,0xFFFFFFFFFFFFFFFF);
-
-      for (int i = 0; i < 10; i++) {
-          std::cout << distribution(generator) << std::endl;
-  }
 /*
 	//Cria vetor aleatório para teste
 	srand(time(NULL));//Função recursiva QuickSort, pivo é o mais a direita
@@ -178,13 +213,13 @@ int main()
 	cout << vet[i] << "  ";
 	}
 */
-/*
+
+
+
 	srand(time(NULL));
 	int *vetor = new int[N];
 
 	int *vetorPosicoes = new int[N];
-
-
 
 
 	fstream myfile;
@@ -194,10 +229,6 @@ int main()
 	int bytes = myfile.tellg();
 	cout << bytes << endl;
 	string str;
-	for(int i = 0; i < 100; i++){
-        cout << rand()%bytes << endl;
-	}
-	cout << endl;
 
 	for(int i=0; i < N; i++){
         int posicaoRandom = rand()%bytes;
@@ -211,13 +242,16 @@ int main()
         iss >> aux;
         vetor[i] = aux;
 	}
-
+    for(int i =0; i < N; i++){
+        cout << vetor[i] << "  ";
+    }
+    cout << endl << endl;
 	if (myfile.is_open()) {
         //QuickSort(vetor, 0, N-1);
         //InsertionSort(vetor, N);
-        QuickSortInsertion(vetorPosicoes, 0, N-1);
+        QuickSortMediana(vetor, 0, N-1, 3);
         for(int i = 0; i < N; i++){
-            cout << vetorPosicoes[i] << "  ";
+            cout << vetor[i] << "  ";
 
         }
 	}
@@ -226,6 +260,6 @@ int main()
 
 
 	myfile.close();
-*/
+
     return 0;
 }
