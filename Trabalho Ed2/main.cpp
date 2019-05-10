@@ -8,6 +8,116 @@
 
 using namespace std;
 
+//Função GetDist utilizada na CombSort
+int GetDist(int dist){
+    dist=(dist*10)/13;
+    if(dist<1){
+        return 1;
+    }
+    return dist;
+}
+//Função CombSort
+void CombSort(int vetor[], int n){
+    int dist=n;
+    bool troca=true;
+    while(dist!=1||troca==true){
+        dist=GetDist(dist);
+        troca=false;
+        for(int i=0;i<n-dist;i++){
+            if(vetor[i]>vetor[i+dist]){
+                swap(vetor[i],vetor[i+dist]);
+                troca=true;
+            }
+        }
+    }
+}
+
+//Função merge utilizada na mergeSort
+void Merge(int vetor[], int esq, int meio, int dir){
+    int i,j,k;
+    int n1=meio-esq+1;
+    int n2=dir-meio;
+
+    int esquerda[n1], direita[n2];
+
+    for(int i=0;i<n1;i++){
+        esquerda[i]=vetor[esq+i];
+    }
+    for(j=0;j<n2;j++){
+        direita[j]=vetor[meio+1+j];
+    }
+    i=0;j=0;k=esq;
+    while(i<n1&&j<n2){
+        if(esquerda[i]<=direita[j]){
+            vetor[k]=esquerda[i];
+            i++;
+        }
+        else{
+            vetor[k]=direita[j];
+            j++;
+        }
+        k++;
+    }
+    while(i<n1){
+        vetor[k]=esquerda[i];
+        i++;
+        k++;
+    }
+    while(j<n2){
+        vetor[k]=direita[j];
+        j++;
+        k++;
+    }
+}
+
+//Função mergeSort
+void MergeSort(int vetor[], int esq, int dir){
+    if(esq<dir){
+        int meio=esq+(dir-esq)/2;
+        MergeSort(vetor,esq,meio);
+        MergeSort(vetor,meio+1,dir);
+        Merge(vetor,esq,meio,dir);
+    }
+
+}
+
+//Heapify utilizada na HeapSort
+void heapify(int vetor[], int n, int i){
+    int maior=i;
+    int esq=2*i+1;
+    int dir=2*i+2;
+
+    if(esq<n&&vetor[esq]>vetor[maior]){
+        maior=esq;
+    }
+    if(dir<n&&vetor[dir]>vetor[maior]){
+        maior=dir;
+    }
+    if(maior!=i){
+        swap(vetor[i],vetor[maior]);
+        heapify(vetor,n,maior);
+    }
+}
+//Função HeapSort
+void heapSort(int vetor[], int n){
+    for(int i=n/2-1; i>=0;i--){
+        heapify(vetor,n,i);
+    }
+    for(int i=n-1;i>=0;i--){
+        swap(vetor[0],vetor[i]);
+        heapify(vetor,i,0);
+    }
+}
+
+//Função para imprimir o vetor
+void printVetor(int vetor[], int n)
+{
+    for (int i=0; i<n; ++i)
+        cout << vetor[i] << " ";
+    cout << "\n";
+}
+
+
 //Função swap
 void Troca(int *vet, int i, int j) {
 	int aux = vet[i];
@@ -217,6 +327,28 @@ int main()
 	}
 */
 
+//funções de ordenação e função de printVetor
+/*
+	cout << "\n\n";
+    cout << "HeapSort:" << endl;
+    heapSort(vetor,N);
+    printVetor(vetor, N);
+    cout << "\n";
+    cout << "QuickSort:" << endl;
+    QuickSort(vetor, 0, N-1);
+	cout << endl;
+	printVetor(vetor,N);
+	cout << "\n";
+    printVetor(vetor,N);
+    cout << "MergeSort:" << endl;
+    int tamVet=sizeof(vetor)/sizeof(vetor[0]);
+    MergeSort(vetor,0,N-1);
+	cout << endl;
+	printVetor(vetor,N);
+	cout << "CombSort:" << endl;
+    CombSort(vetor,N);
+    printVetor(vetor,N);
+*/
 
 
 	srand(time(NULL));
