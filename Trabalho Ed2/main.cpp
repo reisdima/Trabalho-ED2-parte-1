@@ -5,7 +5,7 @@
 #include <sstream>
 #include "Registro.h"
 #include "Ordenacao.h"
-#define N 5
+#define N 10
 
 using namespace std;
 
@@ -383,7 +383,7 @@ int main()
 	cout << "Bytes: " << bytes << endl;
 	string str;
 
-	/*
+
     string delimitador = ",";
 	for(int i=0; i < N; i++){
         int contador = 0;
@@ -399,7 +399,7 @@ int main()
 
 
         getline(myfile, str);
-        cout << "String: " << str << endl;
+        //cout << "String: " << str << endl;
         int pos = 0;
         istringstream iss;
         string aux;
@@ -425,23 +425,30 @@ int main()
                 iss.clear();
                 str.erase(0, pos + delimitador.length());
             }
-            cout << "Aux: " << aux << endl;
+            //cout << "Aux: " << aux << endl;
             contador++;
         }
-        cout << "STR: " << str << endl;
+        //cout << "STR: " << str << endl;
         iss.str(str);
         iss >> timestamp;
-        cout << "UserId: " << userId << "  movieId: " << movieId << "  Rating: " << rating << "  Timestamp: " << timestamp << endl;
+        //cout << "UserId: " << userId << "  movieId: " << movieId << "  Rating: " << rating << "  Timestamp: " << timestamp << endl;
         registros[i] = new Registro(userId, movieId, rating, timestamp);
 
 
         //vetor[i] = userId;
 
 	}
-	for(int i = 0; i< N; i++){
-        registros[i]->ExibirRegistro();
-	}*/
+	for(int i = 0; i < N; i++){
+        registros[i]->ExibirUserId();
+	}
+	cout << endl;
 
+	Ordenacao::QuickSort(registros, 0, N-1);
+	for(int i = 0; i < N; i++){
+        registros[i]->ExibirUserId();
+	}
+	cout << endl;
+	/*
 	for(int i=0; i < N; i++){
         int posicaoRandom = rand()%bytes;
         vetorPosicoes[i] = posicaoRandom;
@@ -471,7 +478,7 @@ int main()
             cout << vetor[i] << "  ";
 
         }
-	}
+	}*/
 
 
 

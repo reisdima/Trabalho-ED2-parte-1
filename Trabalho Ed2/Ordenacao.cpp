@@ -1,4 +1,7 @@
+#include <iostream>
 #include "Ordenacao.h"
+
+using namespace std;
 
 Ordenacao::Ordenacao()
 {
@@ -176,4 +179,39 @@ void Ordenacao::HeapSort(int *vetor, int n){
         Troca(vetor, 0, i);
         Heapify(vetor,i,0);
     }
+}
+
+
+void Ordenacao::QuickSort(Registro **vet, int left, int right){
+    if(left >= right)
+        return;
+    else{
+        //cout << vet[right]->getUserId() << endl;
+        int pivo = vet[right]->getUserId();
+        int particao = Particiona(vet, left, right, pivo);
+
+        QuickSort(vet, left, particao-1);
+        QuickSort(vet, particao, right);
+    }
+}
+
+int Ordenacao::Particiona(Registro **vet, int left, int right, int pivot){
+    int leftPtr = left - 1;
+	int rightPtr = right;
+	for(int j = left; j < right; j++){
+        if(vet[j]->getUserId() <= pivot){
+            leftPtr++;
+            Troca(vet, leftPtr, j);
+        }
+	}
+	Troca(vet, leftPtr+1, right);
+	return (leftPtr + 1);
+}
+
+void Ordenacao::Troca(Registro **vet, int i, int j){
+    //cout << vet[i]->getUserId() << "  " << i << "  " << j << " " << vet[j]->getUserId() << endl;
+    Registro *aux = vet[j];
+    vet[j] = vet[i];
+    vet[i] = aux;
+    //cout << vet[i]->getUserId() << "  " << i << "  " << j << " " << vet[j]->getUserId() << endl;
 }

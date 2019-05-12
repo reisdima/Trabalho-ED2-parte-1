@@ -22,3 +22,11 @@ void Registro::ExibirRegistro(){
     cout << "Rating: " << rating << endl;
     cout << "Timestamp: " << timestamp << endl << endl  ;
 }
+
+void Registro::ExibirUserId(){
+    cout << userId << " ";
+}
+
+int Registro::getUserId(){
+    return userId;
+}

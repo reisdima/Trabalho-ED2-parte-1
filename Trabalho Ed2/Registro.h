@@ -14,7 +14,10 @@ public:
     void setRating(float rating);
     void setTimestamp(int timestamp);
 
+    int getUserId();
+
     void ExibirRegistro();
+    void ExibirUserId();
 
 private:
     int userId;
