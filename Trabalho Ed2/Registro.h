@@ -6,6 +6,7 @@ class Registro
 {
 public:
     Registro(int userId, int movieId, float rating, int timestamp);
+    Registro();
     ~Registro();
 
     void setUserId(int id);
@@ -13,7 +14,10 @@ public:
     void setRating(float rating);
     void setTimestamp(int timestamp);
 
+    int getUserId();
+
     void ExibirRegistro();
+    void ExibirUserId();
 
 private:
     int userId;

@@ -4,7 +4,8 @@
 #include <fstream>
 #include <sstream>
 #include "Registro.h"
-#define N 5
+#include "Ordenacao.h"
+#define N 10
 
 using namespace std;
 
@@ -299,9 +300,7 @@ void QuickSortInsertion(int *vet, int left, int right){
 
 int main()
 {
-
-
-
+    Registro **registros = new Registro*[N];
 /*
 	//Cria vetor aleatório para teste
 	srand(time(NULL));//Função recursiva QuickSort, pivo é o mais a direita
@@ -383,6 +382,8 @@ int main()
 	int bytes = myfile.tellg();
 	cout << "Bytes: " << bytes << endl;
 	string str;
+
+
     string delimitador = ",";
 	for(int i=0; i < N; i++){
         int contador = 0;
@@ -398,7 +399,7 @@ int main()
 
 
         getline(myfile, str);
-        cout << "String: " << str << endl;
+        //cout << "String: " << str << endl;
         int pos = 0;
         istringstream iss;
         string aux;
@@ -424,18 +425,29 @@ int main()
                 iss.clear();
                 str.erase(0, pos + delimitador.length());
             }
-            cout << "Aux: " << aux << endl;
+            //cout << "Aux: " << aux << endl;
             contador++;
         }
-        cout << "STR: " << str << endl;
+        //cout << "STR: " << str << endl;
         iss.str(str);
         iss >> timestamp;
-        cout << "UserId: " << userId << "  movieId: " << movieId << "  Rating: " << rating << "  Timestamp: " << timestamp << endl;
+        //cout << "UserId: " << userId << "  movieId: " << movieId << "  Rating: " << rating << "  Timestamp: " << timestamp << endl;
+        registros[i] = new Registro(userId, movieId, rating, timestamp);
 
 
         //vetor[i] = userId;
 
 	}
+	for(int i = 0; i < N; i++){
+        registros[i]->ExibirUserId();
+	}
+	cout << endl;
+
+	Ordenacao::QuickSort(registros, 0, N-1);
+	for(int i = 0; i < N; i++){
+        registros[i]->ExibirUserId();
+	}
+	cout << endl;
 	/*
 	for(int i=0; i < N; i++){
         int posicaoRandom = rand()%bytes;
@@ -459,15 +471,15 @@ int main()
     cout << endl << endl;
 
 	if (myfile.is_open()) {
-        QuickSort(vetor, 0, N-1);
+        Ordenacao::QuickSort(vetor, 0, N-1);
         //InsertionSort(vetor, N);
         //QuickSortMediana(vetor, 0, N-1, 3);
         for(int i = 0; i < N; i++){
             cout << vetor[i] << "  ";
 
         }
-	}
-*/
+	}*/
+
 
 
 
