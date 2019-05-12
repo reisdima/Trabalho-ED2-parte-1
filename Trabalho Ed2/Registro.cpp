@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Registro::Registro(int userId, int movieId, float rating, long long timestamp)
+Registro::Registro(int userId, int movieId, float rating, int timestamp)
 {
     this->userId = userId;
     this->movieId = movieId;
@@ -20,5 +20,5 @@ void Registro::ExibirRegistro(){
     cout << "UserId: " << userId << endl;
     cout << "MovieId: " << movieId << endl;
     cout << "Rating: " << rating << endl;
-    cout << "Timestamp: " << timestamp << endl;
+    cout << "Timestamp: " << timestamp << endl << endl  ;
 }

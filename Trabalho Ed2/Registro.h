@@ -6,6 +6,7 @@ class Registro
 {
 public:
     Registro(int userId, int movieId, float rating, int timestamp);
+    Registro();
     ~Registro();
 
     void setUserId(int id);
