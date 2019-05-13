@@ -7,9 +7,12 @@
 
 using namespace std;
 
+int contadorComparacao=0;
+int contadorTrocaDeDados=0;
+
 Ordenacao::Ordenacao()
 {
-    //ctor
+
 }
 
 Ordenacao::~Ordenacao()
@@ -22,16 +25,19 @@ void Ordenacao::Troca(int *vet, int i, int j) {
 	int aux = vet[i];
 	vet[i] = vet[j];
 	vet[j] = aux;
+	contadorTrocaDeDados++;
 }
 
 int Ordenacao::Particiona(int *vet, int left, int right, float pivot) {
 	int leftPtr = left - 1;
 	int rightPtr = right;
 	for(int j = left; j < right; j++){
+        contadorComparacao++;
         if(vet[j] <= pivot){
             leftPtr++;
             Troca(vet, leftPtr, j);
         }
+        contadorComparacao++;
 	}
 	Troca(vet, leftPtr+1, right);
 	return (leftPtr + 1);
@@ -40,13 +46,12 @@ int Ordenacao::Particiona(int *vet, int left, int right, float pivot) {
 
 
 void Ordenacao::QuickSort(int *vet, int left, int right){
+    contadorComparacao++;
     if(left >= right)
         return;
     else{
-
         int pivo = vet[right];
         int particao = Particiona(vet, left, right,pivo);
-
         QuickSort(vet, left, particao-1);
         QuickSort(vet, particao, right);
     }
@@ -55,21 +60,26 @@ void Ordenacao::QuickSort(int *vet, int left, int right){
 
 void Ordenacao::ManualSort(int *vet, int left, int right){
     int tamanho = right - left + 1;
+    contadorComparacao++;
     if(tamanho <= 1)
         return;
-
+    contadorComparacao++;
     if(tamanho == 2){
+        contadorComparacao++;
         if(vet[right] < vet[left])
             Troca(vet, left, right);
         return;
     }
     else{
+        contadorComparacao++;
         if(vet[2] < vet[0]){
         Troca(vet, 2, 0);
         }
+        contadorComparacao++;
         if(vet[2] < vet[1]){
             Troca(vet, 2, 1);
         }
+        contadorComparacao++;
         if(vet[1] < vet[0]){
             Troca(vet, 1, 0);
         }
@@ -87,12 +97,15 @@ void Ordenacao::Merge(int *vetor, int esq, int meio, int dir){
 
     for(int i=0;i<n1;i++){
         esquerda[i]=vetor[esq+i];
+        contadorComparacao++;
     }
     for(j=0;j<n2;j++){
         direita[j]=vetor[meio+1+j];
+        contadorComparacao++;
     }
     i=0;j=0;k=esq;
     while(i<n1&&j<n2){
+        contadorComparacao++;
         if(esquerda[i]<=direita[j]){
             vetor[k]=esquerda[i];
             i++;
@@ -102,22 +115,26 @@ void Ordenacao::Merge(int *vetor, int esq, int meio, int dir){
             j++;
         }
         k++;
+        contadorComparacao++;
     }
     while(i<n1){
         vetor[k]=esquerda[i];
         i++;
         k++;
+        contadorComparacao++;
     }
     while(j<n2){
         vetor[k]=direita[j];
         j++;
         k++;
+        contadorComparacao++;
     }
 }
 
 
 
 void Ordenacao::MergeSort(int *vet, int esq, int dir){
+    contadorComparacao++;
     if(esq<dir){
         int meio=esq+(dir-esq)/2;
         MergeSort(vet,esq,meio);
@@ -133,6 +150,7 @@ void Ordenacao::MergeSort(int *vet, int esq, int dir){
 //Função GetDist utilizada na CombSort
 int Ordenacao::GetDist(int dist){
     dist=(dist*10)/13;
+    contadorComparacao++;
     if(dist<1){
         return 1;
     }
@@ -147,11 +165,14 @@ void Ordenacao::CombSort(int *vetor, int n){
         dist = GetDist(dist);
         troca = false;
         for(int i=0;i<n-dist;i++){
+            contadorComparacao++;
             if(vetor[i]>vetor[i+dist]){
                 Troca(vetor, i, i+dist);
                 troca=true;
             }
+            contadorComparacao++;
         }
+        contadorComparacao++;
     }
 }
 
@@ -161,13 +182,15 @@ void Ordenacao::Heapify(int *vetor, int n, int i){
     int maior=i;
     int esq=2*i+1;
     int dir=2*i+2;
-
+    contadorComparacao++;
     if(esq<n && vetor[esq]>vetor[maior]){
         maior=esq;
     }
+    contadorComparacao++;
     if(dir<n&&vetor[dir]>vetor[maior]){
         maior=dir;
     }
+    contadorComparacao++;
     if(maior!=i){
         Troca(vetor, i, maior);
         Heapify(vetor,n,maior);
@@ -178,15 +201,18 @@ void Ordenacao::Heapify(int *vetor, int n, int i){
 void Ordenacao::HeapSort(int *vetor, int n){
     for(int i=n/2-1; i>=0;i--){
         Heapify(vetor,n,i);
+        contadorComparacao++;
     }
     for(int i=n-1;i>=0;i--){
         Troca(vetor, 0, i);
         Heapify(vetor,i,0);
+        contadorComparacao++;
     }
 }
 
 
 void Ordenacao::QuickSort(Registro **vet, int left, int right){
+    contadorComparacao++;
     if(left >= right)
         return;
     else{
@@ -203,10 +229,12 @@ int Ordenacao::Particiona(Registro **vet, int left, int right, int pivot){
     int leftPtr = left - 1;
 	int rightPtr = right;
 	for(int j = left; j < right; j++){
+        contadorComparacao++;
         if(vet[j]->getUserId() <= pivot){
             leftPtr++;
             Troca(vet, leftPtr, j);
         }
+        contadorComparacao++;
 	}
 	Troca(vet, leftPtr+1, right);
 	return (leftPtr + 1);
@@ -221,8 +249,10 @@ void Ordenacao::Troca(Registro **vet, int i, int j){
 }
 
 void Ordenacao::PrintVetor(int vetor[], int n){
-    for (int i=0; i<n; ++i)
+    for (int i=0; i<n; ++i){
         cout << vetor[i] << " ";
+        contadorComparacao++;
+    }
     cout << "\n";
 }
 
@@ -235,13 +265,16 @@ void Ordenacao::InsertionSort(int *vet, int n){
         while(j >= 0 && vet[j] > pivo){
             vet[j+1] = vet[j];
             j--;
+            contadorComparacao++;
         }
         vet[j+1] = pivo;
+        contadorComparacao++;
     }
 }
 
 void Ordenacao::QuickSortInsertion(int *vet, int left, int right){
     int tamanho = right - left + 1;
+    contadorComparacao++;
     if(tamanho <= 10){
         InsertionSort(vet, tamanho);
         return;
@@ -258,10 +291,12 @@ int Ordenacao::Particao(int *vet, int left, int right, float pivot) {
 	int leftPtr = left - 1;
 	int rightPtr = right;
 	for(int j = left; j < right; j++){
+        contadorComparacao++;
         if(vet[j] <= pivot){
             leftPtr++;
             Troca(vet, leftPtr, j);
         }
+        contadorComparacao++;
 	}
 	Troca(vet, leftPtr+1, right);
 	return (leftPtr + 1);
@@ -285,40 +320,49 @@ int Ordenacao::Mediana(int *vet, int left, int right, int k, int N){
 
     for(int i = 0; i < k; i++){
         random[i] = rand()%N;
+        contadorComparacao++;
     }
     cout << "Valores random: " << endl;
     for(int i = 0; i < k; i++){
         cout << random[i] << "  ";
+        contadorComparacao++;
     }
     cout << endl << endl;
     cout << "Valor do vetor: " << endl;
     for(int i = 0; i < k; i++){
         cout << vet[random[i]] << "  ";
+        contadorComparacao++;
     }
     cout << endl << endl;
     QuickSort(random, 0, k-1);
 
     for(int i = 0; i < k-1; i++){
         for(int j = i+1; j < k; j++){
+            contadorComparacao++;
             if(vet[random[i]] > vet[random[j]]){
                 cout << "Trocou" << endl;
                 Troca(vet, random[i], random[j]);
             }
+            contadorComparacao++;
         }
+        contadorComparacao++;
     }
     cout << "Valor do vetor: " << endl;
     for(int i = 0; i < k; i++){
         cout << vet[random[i]] << "  ";
+        contadorComparacao++;
     }
     cout << endl << endl;
     cout << "Valor do random: " << endl;
     for(int i = 0; i < k; i++){
         cout << random[i] << "  ";
+        contadorComparacao++;
     }
     cout << endl << endl;
     Troca(vet, random[k-2], N-1);
     for(int i =0; i < N; i++){
         cout << vet[i] << "  ";
+        contadorComparacao++;
     }
     cout << endl;
     return vet[N-1];
@@ -345,6 +389,7 @@ int Ordenacao::Mediana(int *vet, int left, int right, int k, int N){
 
 void Ordenacao::QuickSortMediana(int *vet, int left, int right, int k, int n){
     int tamanho = right - left + 1;
+    contadorComparacao++;
     if(tamanho <= 3)
         ManualSort(vet, left, right);
     else{
@@ -355,5 +400,9 @@ void Ordenacao::QuickSortMediana(int *vet, int left, int right, int k, int n){
         QuickSortMediana(vet, left, particao-1, k,n);
         QuickSortMediana(vet, particao, right, k,n);
     }
+}
+
+void Ordenacao::imprimeContadores(){
+    cout<<endl<<"ContadorComparacao: "<< contadorComparacao << endl<<"ContadorTrocaDeDados: "<<contadorTrocaDeDados<<endl;
 }
 

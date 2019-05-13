@@ -17,9 +17,10 @@ public:
     static void PrintVetor(int *vet, int n);
     static void InsertionSort(int *vet, int n);
     static void QuickSortInsertion(int *vet, int left, int right);
-    static void QuickSortMediana(int *vet, int left, int right, int k, int n);
+    static void QuickSortMediana(int *vet, int left, int right, int k, int n );
     static int Mediana(int *vet, int left, int right, int k, int n);
     static int Particao(int *vet, int left, int right, float pivot);
+    static void imprimeContadores();
 private:
     static void Heapify(int *vet, int n, int i);
     static int GetDist(int dist);
