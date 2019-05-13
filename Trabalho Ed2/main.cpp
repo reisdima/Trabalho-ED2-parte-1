@@ -5,12 +5,13 @@
 #include <sstream>
 #include "Registro.h"
 #include "Ordenacao.h"
-#define N 10
+#define N 10000
 
 using namespace std;
 
 int main()
 {
+    int contadorComparacao;
     Registro **registros = new Registro*[N];
 /*
 	//Cria vetor aleatório para teste
@@ -154,10 +155,11 @@ int main()
 	}
 	cout << endl;
 
-	Ordenacao::QuickSort(registros, 0, N-1);
+	Ordenacao::QuickSort(vetor,0,N-1);
 	for(int i = 0; i < N; i++){
         registros[i]->ExibirUserId();
 	}
+    Ordenacao::imprimeContadores();
 	cout << endl;
 	/*
 	for(int i=0; i < N; i++){
