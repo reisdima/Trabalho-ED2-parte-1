@@ -1,5 +1,9 @@
 #include <iostream>
 #include "Ordenacao.h"
+#include <time.h>
+#include <stdlib.h>
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -215,3 +219,141 @@ void Ordenacao::Troca(Registro **vet, int i, int j){
     vet[i] = aux;
     //cout << vet[i]->getUserId() << "  " << i << "  " << j << " " << vet[j]->getUserId() << endl;
 }
+
+void Ordenacao::PrintVetor(int vetor[], int n){
+    for (int i=0; i<n; ++i)
+        cout << vetor[i] << " ";
+    cout << "\n";
+}
+
+
+
+void Ordenacao::InsertionSort(int *vet, int n){
+    for(int i = 1; i < n; i++){
+        int pivo = vet[i];
+        int j = i - 1;
+        while(j >= 0 && vet[j] > pivo){
+            vet[j+1] = vet[j];
+            j--;
+        }
+        vet[j+1] = pivo;
+    }
+}
+
+void Ordenacao::QuickSortInsertion(int *vet, int left, int right){
+    int tamanho = right - left + 1;
+    if(tamanho <= 10){
+        InsertionSort(vet, tamanho);
+        return;
+    }
+    int pivo = vet[right];
+    int particao = Particao(vet, left, right, pivo);
+    QuickSortInsertion(vet, left, particao-1);
+    QuickSortInsertion(vet, particao, right);
+
+}
+
+//Função para particionar o vetor e encontrar o pivo
+int Ordenacao::Particao(int *vet, int left, int right, float pivot) {
+	int leftPtr = left - 1;
+	int rightPtr = right;
+	for(int j = left; j < right; j++){
+        if(vet[j] <= pivot){
+            leftPtr++;
+            Troca(vet, leftPtr, j);
+        }
+	}
+	Troca(vet, leftPtr+1, right);
+	return (leftPtr + 1);
+}
+
+int Ordenacao::Mediana(int *vet, int left, int right, int k, int N){
+    /*
+    int mid = (right+left)/2;
+    if(vet[mid] < vet[left]){
+        Troca(vet, mid, left);
+    }
+    if(vet[right] < vet[left]){
+        Troca(vet, right, left);
+    }
+    if(vet[right] < vet[mid]){
+        Troca(vet, right, mid);
+    }
+    Troca(vet, mid, right-1);*/
+
+    int *random = new int(k);
+
+    for(int i = 0; i < k; i++){
+        random[i] = rand()%N;
+    }
+    cout << "Valores random: " << endl;
+    for(int i = 0; i < k; i++){
+        cout << random[i] << "  ";
+    }
+    cout << endl << endl;
+    cout << "Valor do vetor: " << endl;
+    for(int i = 0; i < k; i++){
+        cout << vet[random[i]] << "  ";
+    }
+    cout << endl << endl;
+    QuickSort(random, 0, k-1);
+
+    for(int i = 0; i < k-1; i++){
+        for(int j = i+1; j < k; j++){
+            if(vet[random[i]] > vet[random[j]]){
+                cout << "Trocou" << endl;
+                Troca(vet, random[i], random[j]);
+            }
+        }
+    }
+    cout << "Valor do vetor: " << endl;
+    for(int i = 0; i < k; i++){
+        cout << vet[random[i]] << "  ";
+    }
+    cout << endl << endl;
+    cout << "Valor do random: " << endl;
+    for(int i = 0; i < k; i++){
+        cout << random[i] << "  ";
+    }
+    cout << endl << endl;
+    Troca(vet, random[k-2], N-1);
+    for(int i =0; i < N; i++){
+        cout << vet[i] << "  ";
+    }
+    cout << endl;
+    return vet[N-1];
+
+    /*int *random =  new int[k];
+    for(int i = 0; i < k; i++){
+        random[i] = rand()%tamanho;
+    }
+    ManualSort(random);
+    if(vet[random[2]] < vet[random[0]]){
+        Troca(vet, random[2], random[0]);
+    }
+    if(vet[random[2]] < vet[random[1]]){
+        Troca(vet, random[2], random[1]);
+    }
+    if(vet[random[1]] < vet[random[0]]){
+        Troca(vet, random[1], random[0]);
+    }
+    return random[2];*int *vetorTeste = new int(N);
+    for(int i = 0; i< N; i++){
+
+    }*/
+}
+
+void Ordenacao::QuickSortMediana(int *vet, int left, int right, int k, int n){
+    int tamanho = right - left + 1;
+    if(tamanho <= 3)
+        ManualSort(vet, left, right);
+    else{
+
+         int mediana = Mediana(vet, left, right, k, n);
+        int particao = Particao(vet, left, right, mediana);
+
+        QuickSortMediana(vet, left, particao-1, k,n);
+        QuickSortMediana(vet, particao, right, k,n);
+    }
+}
+
