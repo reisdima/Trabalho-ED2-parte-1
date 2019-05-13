@@ -32,6 +32,10 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="HashMap.cpp" />
+		<Unit filename="HashMap.h" />
+		<Unit filename="HashNode.cpp" />
+		<Unit filename="HashNode.h" />
 		<Unit filename="Ordenacao.cpp" />
 		<Unit filename="Ordenacao.h" />
 		<Unit filename="Registro.cpp" />
