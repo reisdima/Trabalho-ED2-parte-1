@@ -6,11 +6,31 @@
 class HashMap
 {
 public:
-    HashMap(int tamanho);
+    HashMap(int capacidade);
     ~HashMap();
 
-    void Insert(int userId, int movieId);
-    void Remove(int userId, int movieId);
+    void InsertSondagemLinear(int userId, int movieId);
+    void RemoveSondagemLinear(int userId, int movieId);
+    void SearchSondagemLinear(int userId, int movieId);
+
+    void InsertSondagemQuadratica(int userId, int movieId);
+    void RemoveSondagemQuadratica(int userId, int movieId);
+    void SearchSondagemQuadratica(int userId, int movieId);
+
+    void InsertDuploHash(int userId, int movieId);
+    void RemoveDuploHash(int userId, int movieId);
+    void SearchDuploHash(int userId, int movieId);
+
+    void InsertEncadeamentoSeparado(int userId, int movieId);
+    void RemoveEncadeamentoSeparado(int userId, int movieId);
+    void SearchEncadeamentoSeparado(int userId, int movieId);
+
+    void InsertEncadeamentoCoalescido(int userId, int movieId);
+    void RemoveEncadeamentoCoalescido(int userId, int movieId);
+    void SearchEncadeamentoCoalescido(int userId, int movieId);
+
+    void Print();
+    void PrintEncadeamentoSeparado();
 
 private:
     HashNode **vetor;
@@ -18,7 +38,12 @@ private:
     int tamanho;
     int capacidade;
 
-    int FuncaoHash(int key);
+    int FuncaoHashSondagemLinear(int key, int k);
+    int FuncaoHashSondagemQuadratica(int key, int k);
+    int FuncaoHashDuploHash(int key, int k);
+    int FuncaoHashDuploHash2(int key);
+    int FuncaoHashEncadeamentoSeparado(int key);
+    int FuncaoHashEncadeamentoCoalescido(int key);
 
 };
 

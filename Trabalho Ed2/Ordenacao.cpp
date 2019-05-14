@@ -245,6 +245,7 @@ void Ordenacao::Troca(Registro **vet, int i, int j){
     Registro *aux = vet[j];
     vet[j] = vet[i];
     vet[i] = aux;
+    contadorTrocaDeDados++;
     //cout << vet[i]->getUserId() << "  " << i << "  " << j << " " << vet[j]->getUserId() << endl;
 }
 
@@ -403,6 +404,6 @@ void Ordenacao::QuickSortMediana(int *vet, int left, int right, int k, int n){
 }
 
 void Ordenacao::imprimeContadores(){
-    cout<<endl<<"ContadorComparacao: "<< contadorComparacao << endl<<"ContadorTrocaDeDados: "<<contadorTrocaDeDados<<endl;
+    cout<<endl<<"ContadorComparacao: " << contadorComparacao << endl << "ContadorTrocaDeDados: " << contadorTrocaDeDados << endl;
 }
 

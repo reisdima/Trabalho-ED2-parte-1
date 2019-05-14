@@ -5,13 +5,13 @@
 #include <sstream>
 #include "Registro.h"
 #include "Ordenacao.h"
-#define N 10000
+#include "HashMap.h"
+#define N 5
 
 using namespace std;
 
 int main()
 {
-    int contadorComparacao;
     Registro **registros = new Registro*[N];
 /*
 	//Cria vetor aleatório para teste
@@ -38,28 +38,7 @@ int main()
 	}
 */
 
-//funções de ordenação e função de printVetor
-/*
-	cout << "\n\n";
-    cout << "HeapSort:" << endl;
-    heapSort(vetor,N);
-    printVetor(vetor, N);
-    cout << "\n";
-    cout << "QuickSort:" << endl;
-    QuickSort(vetor, 0, N-1);
-	cout << endl;
-	printVetor(vetor,N);
-	cout << "\n";
-    printVetor(vetor,N);
-    cout << "MergeSort:" << endl;
-    int tamVet=sizeof(vetor)/sizeof(vetor[0]);
-    MergeSort(vetor,0,N-1);
-	cout << endl;
-	printVetor(vetor,N);
-	cout << "CombSort:" << endl;
-    CombSort(vetor,N);
-    printVetor(vetor,N);
-*/
+
 
 
 	srand(time(NULL));
@@ -72,22 +51,6 @@ int main()
 
 	myfile.open("ratings.csv");
 
-	/*
-	if(myfile.is_open()){
-        int userid;
-        int movieId;
-        string str;
-        getline(myfile, str);
-        getline(myfile, str);
-        getline(myfile, str);
-        cout << str << endl;
-        getline(myfile, str , ',');
-        cout << str << endl;
-        getline(myfile, str , ',');
-        cout << str << endl;
-
-	}
-*/
 
 
 	myfile.seekg(0, ios::end);
@@ -97,6 +60,7 @@ int main()
 
 
     string delimitador = ",";
+
 	for(int i=0; i < N; i++){
         int contador = 0;
         int userId ;
@@ -143,24 +107,40 @@ int main()
         //cout << "STR: " << str << endl;
         iss.str(str);
         iss >> timestamp;
-        //cout << "UserId: " << userId << "  movieId: " << movieId << "  Rating: " << rating << "  Timestamp: " << timestamp << endl;
+        cout << "UserId: " << userId << "  movieId: " << movieId << "  Rating: " << rating << "  Timestamp: " << timestamp << endl;
         registros[i] = new Registro(userId, movieId, rating, timestamp);
 
 
         //vetor[i] = userId;
 
 	}
+
+
 	for(int i = 0; i < N; i++){
         registros[i]->ExibirUserId();
 	}
-	cout << endl;
+	cout << endl << endl;
+	HashMap *hashmap = new HashMap(N);
+	for(int i = 0; i < N; i++){
+        hashmap->InsertDuploHash(registros[i]->getUserId(), registros[i]->getMovieId());
+	}
 
-	Ordenacao::QuickSort(vetor,0,N-1);
+	for(int i = 0; i< N; i++){
+        hashmap->SearchDuploHash(registros[i]->getUserId(), registros[i]->getMovieId());
+	}
+    cout << endl;
+    int i;
+    int j;
+    hashmap->Print();
+    cin >> i >> j;
+    hashmap->RemoveDuploHash(i, j);
+    hashmap->Print();
+	/*Ordenacao::QuickSort(registros,0,N-1);
 	for(int i = 0; i < N; i++){
         registros[i]->ExibirUserId();
 	}
     Ordenacao::imprimeContadores();
-	cout << endl;
+	cout << endl;*/
 	/*
 	for(int i=0; i < N; i++){
         int posicaoRandom = rand()%bytes;

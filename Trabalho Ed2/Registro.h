@@ -15,6 +15,7 @@ public:
     void setTimestamp(int timestamp);
 
     int getUserId();
+    int getMovieId();
 
     void ExibirRegistro();
     void ExibirUserId();

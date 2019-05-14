@@ -30,3 +30,7 @@ void Registro::ExibirUserId(){
 int Registro::getUserId(){
     return userId;
 }
+
+int Registro::getMovieId(){
+    return movieId;
+}

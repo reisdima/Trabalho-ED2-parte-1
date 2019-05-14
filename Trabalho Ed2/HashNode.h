@@ -15,13 +15,20 @@ public:
     void setMovieId(int movieId);
 
     void setProx(HashNode *prox);
-    HashNode *setProx();
+    void setAnt(HashNode *prox);
+    HashNode *getProx();
+    HashNode *getAnt();
+
+    void setProximaChave(int key);
+    int getProximaChave();
 
 private:
     int userId;
     int movieId;
 
     HashNode *prox;
+    HashNode *anterior;
+    int proximaChave;
 };
 
 #endif // HASHNODE_H
