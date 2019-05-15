@@ -10,51 +10,74 @@
 #include "Ordenacao.h"
 #include "HashMap.h"
 
-#define N 10000
+//#define N 10000
 
 using namespace std;
 using namespace chrono;
 
-void CenarioUm(int *vetor){
-    int vetN[4] = {30000,10000,5000,1000};
+void CenarioUm(int *vetor, int N){
+    //int vetN[4] = {1000, 5000, 10000, 40000};
     ofstream myfileQuickSort ("saida.txt", ios::out | ios::app);
     steady_clock::time_point inicio = steady_clock::now();
     steady_clock::time_point fim = steady_clock::now();
-    duration<double> tempoTotal=duration_cast<duration<double>>(fim-inicio);
-    for(int i=0;i<4;i++){
-            vetor=new int [vetN[i]];
-            for(int j=0; j<5; j++){
-            //QuickSort Teste contendo tempo de execução, contadorComparacao e contadorTrocaDeDados  com variaçoes de N
-                inicio = steady_clock::now();
-                Ordenacao::QuickSort(vetor, 0, vetN[i]-1);
-                fim = steady_clock::now();
-                tempoTotal=duration_cast<duration<double>>(fim-inicio);
-                if (myfileQuickSort.is_open()){
-                    myfileQuickSort << "*** tempo total QuickSort em segundos N = "<< vetN[i] <<" --- ";
-                    myfileQuickSort << tempoTotal.count()<<" segundos";
-                    myfileQuickSort << "\n";
-                    myfileQuickSort <<"Quantidade de comparacoes "<< Ordenacao::getContadorComparacao();
-                    myfileQuickSort <<"\n";
-                    myfileQuickSort <<"Quantidade de Troca de Dados "<<Ordenacao::getContadorTrocaDados();
-                    myfileQuickSort <<"\n\n";
-                }
-                cout<<vetN[i];
-            }
-    }
-    myfileQuickSort.close();
+    duration<double> tempoTotal = duration_cast<duration<double>>(fim-inicio);
+    /*
+    for(int i = 0; i < 1; i++){
+        vetor = new int [vetN[i]];
+        mt19937 generator;
+        generator.seed(time(NULL));
+        uniform_int_distribution<uint32_t> random(1, bytes);
+        string str;
+        //cout << Ordenacao::contadorComparacao << "  " << Ordenacao::contadorTrocaDeDados << endl;
+        for(int j = 0; j < vetN[i]; j++){
+            int posicaoRandom = random(generator);
+            //cout << posicaoRandom << endl;
+            myfile->seekg(posicaoRandom, ios::beg);
+            getline(*myfile, str);
+            getline(*myfile, str, ',');
+            istringstream iss (str);
+            int aux;
+            iss >> aux;
+            vetor[i] = aux;
+        }*/
+        //QuickSort Teste contendo tempo de execução, contadorComparacao e contadorTrocaDeDados  com variaçoes de N
+        inicio = steady_clock::now();
+        Ordenacao::QuickSort(vetor, 0, N - 1);
+        fim = steady_clock::now();
+        tempoTotal = duration_cast<duration<double>>(fim-inicio);
+
+        if (myfileQuickSort.is_open()){
+            myfileQuickSort << "*** Tempo total QuickSort em segundos N = "<< N <<" --- ";
+            myfileQuickSort << tempoTotal.count()<<" segundos";
+            myfileQuickSort << "\n";
+            myfileQuickSort <<"Quantidade de comparacoes "<< Ordenacao::getContadorComparacao();
+            myfileQuickSort <<"\n";
+            myfileQuickSort <<"Quantidade de Troca de Dados "<<Ordenacao::getContadorTrocaDados();
+            myfileQuickSort <<"\n\n";
+        }
+        else{
+            cout << "teste" << endl;
+        }
+        //cout << Ordenacao::contadorComparacao << "  " << Ordenacao::contadorTrocaDeDados << endl;
+
+        myfileQuickSort.close();
+        Ordenacao::zerarContadores();
+        //cout << Ordenacao::contadorComparacao << "  " << Ordenacao::contadorTrocaDeDados << endl;
 }
+
+
 
 void CenarioDois(int *vetor){
 
 }
 
 void CenarioTres(int *vetor){
-    Ordenacao::CombSort(vetor, N);
+    /*Ordenacao::CombSort(vetor, N);
     Ordenacao::HeapSort(vetor, N);
     Ordenacao::InsertionSort(vetor, N);
     Ordenacao::ManualSort(vetor, 0, N-1);
     Ordenacao::MergeSort(vetor, 0, N-1);
-    Ordenacao::QuickSort(vetor, 0, N-1);
+    Ordenacao::QuickSort(vetor, 0, N-1);*/
 
 }
 
@@ -72,7 +95,7 @@ void menu (int *vetor){
     switch(op){
         case 1:
             cout << "Analise de cenario 1:" << endl;
-            CenarioUm(vetor);
+            //CenarioUm(vetor);
             break;
         case 2:
             cout << "Analise de cenario 2:" << endl;
@@ -91,47 +114,35 @@ void menu (int *vetor){
         default:
             cout << "O valor digitado nao corresponde a uma analise!" << endl;
     }
+}
 
+void realizarLeitura(fstream *myfile, int *vetor, int N, int bytes){
+    //cout << "Teste" << endl;
+    //vetor = new int [N];
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    mt19937 generator(seed);
+
+    uniform_int_distribution<uint32_t> random(1, bytes);
+    string str;
+    cout << N << endl;
+    for(int i = 0; i < N; i++){
+        int posicaoRandom = random(generator);
+        //cout << posicaoRandom << endl;
+        myfile->seekg(posicaoRandom, ios::beg);
+        getline(*myfile, str);
+        getline(*myfile, str, ',');
+        istringstream iss (str);
+        int aux;
+        iss >> aux;
+        vetor[i] = aux;
+    }
 }
 
 int main()
 {
-    Registro **registros = new Registro*[N];
+    //Registro **registros = new Registro*[N];
 
     srand(time(NULL));
-	int *vetor = new int[N];
-
-	int *vetorPosicoes = new int[N];
-/*
-	//Cria vetor aleatório para teste
-	srand(time(NULL));//Função recursiva QuickSort, pivo é o mais a direita
-	int *vet = new int[N];
-	for (int i = 0; i < N; i++)
-	{
-		vet[i] = rand() % 100;
-	}
-
-
-
-	for (int i = 0; i < N; i++)
-	{
-	cout << vet[i] << "  ";
-	}
-	cout << endl;
-
-	QuickSort(vet, 0, N-1);
-    cout << endl;
-	for (int i = 0; i < N; i++)
-	{
-	cout << vet[i] << "  ";
-	}
-*/
-
-
-
-
-
-
 
 	fstream myfile;
 
@@ -139,13 +150,31 @@ int main()
 	myfile.seekg(0, ios::end);
 	int bytes = myfile.tellg();
 	cout << "Bytes: " << bytes << endl;
-	string str;
-    mt19937 generator;
-    generator.seed(time(NULL));
+    if (myfile.is_open()) {
+        int escolha = 0;
+        //cout << "Insira Um valor: ";
+        //cin >> escolha;
+        escolha = 1;
+        if(escolha == 1){
+            int vetN[1] = {100};
+            for(int i = 0; i < 1; i++){
 
+                for(int j = 0; j < 1; j++){
+                    int *vetor = new int[vetN[i]];
+                    realizarLeitura(&myfile, vetor, vetN[i], bytes);
+                    //Ordenacao::PrintVetor(vetor, vetN[i]);
+                    CenarioUm(vetor, vetN[i]);
+                }
 
+            }
+        }
+
+        //Ordenacao::QuickSort(vetor, 0, N-1);
+        //Ordenacao::PrintVetor(vetor, N);
+	}
+
+	myfile.close();
     //int random = teste(generator);
-
 
 /*
     string delimitador = ",";
@@ -237,28 +266,26 @@ int main()
 	}
     Ordenacao::imprimeContadores();
 	cout << endl;*/
-
+	/*
+    mt19937 generator;
+    generator.seed(time(NULL));
     uniform_int_distribution<uint32_t> random(1, bytes);
-	for(int i=0; i < N; i++){
+    string str;
+    string str;
+    for(int j = 0; j < vetN[i]; j++){
         int posicaoRandom = random(generator);
-        vetorPosicoes[i] = posicaoRandom;
         //cout << posicaoRandom << endl;
-        myfile.seekg(posicaoRandom, ios::beg);
-        getline(myfile, str);
-        getline(myfile, str, ',');
+        myfile->seekg(posicaoRandom, ios::beg);
+        getline(*myfile, str);
+        getline(*myfile, str, ',');
         istringstream iss (str);
         int aux;
         iss >> aux;
         vetor[i] = aux;
-	}
+    }*/
 
-	if (myfile.is_open()) {
-	CenarioUm(vetor);
-        Ordenacao::QuickSort(vetor, 0, N-1);
-        //Ordenacao::PrintVetor(vetor, N);
-	}
 
-	myfile.close();
+
 
     return 0;
 }
