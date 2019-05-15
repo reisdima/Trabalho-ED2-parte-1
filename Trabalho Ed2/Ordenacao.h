@@ -21,6 +21,8 @@ public:
     static int Mediana(int *vet, int left, int right, int k, int n);
     static int Particao(int *vet, int left, int right, float pivot);
     static void imprimeContadores();
+    static int getContadorTrocaDados();
+    static int getContadorComparacao();
 private:
     static void Heapify(int *vet, int n, int i);
     static int GetDist(int dist);

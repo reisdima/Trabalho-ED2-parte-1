@@ -20,6 +20,13 @@ Ordenacao::~Ordenacao()
     //dtor
 }
 
+int Ordenacao::getContadorComparacao(){
+    return contadorComparacao;
+}
+
+int Ordenacao::getContadorTrocaDados(){
+    return contadorTrocaDeDados;
+}
 
 void Ordenacao::Troca(int *vet, int i, int j) {
 	int aux = vet[i];
