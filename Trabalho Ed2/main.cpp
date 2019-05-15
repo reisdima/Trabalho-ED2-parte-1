@@ -5,11 +5,12 @@
 #include <sstream>
 #include <chrono>
 #include <ctime>
+#include <random>
 #include "Registro.h"
 #include "Ordenacao.h"
 #include "HashMap.h"
 
-#define N 100
+#define N 10000
 
 using namespace std;
 using namespace chrono;
@@ -144,6 +145,11 @@ void testes(int *vetor){
 int main()
 {
     Registro **registros = new Registro*[N];
+
+    srand(time(NULL));
+	int *vetor = new int[N];
+
+	int *vetorPosicoes = new int[N];
 /*
 	//Cria vetor aleatório para teste
 	srand(time(NULL));//Função recursiva QuickSort, pivo é o mais a direita
@@ -172,22 +178,22 @@ int main()
 
 
 
-	srand(time(NULL));
-	int *vetor = new int[N];
 
-	int *vetorPosicoes = new int[N];
 
 
 	fstream myfile;
 
 	myfile.open("ratings.csv");
-
-
-
 	myfile.seekg(0, ios::end);
 	int bytes = myfile.tellg();
 	cout << "Bytes: " << bytes << endl;
 	string str;
+    mt19937 generator;
+    generator.seed(time(NULL));
+
+
+    //int random = teste(generator);
+
 
 /*
     string delimitador = ",";
@@ -280,8 +286,9 @@ int main()
     Ordenacao::imprimeContadores();
 	cout << endl;*/
 
+    uniform_int_distribution<uint32_t> random(1, bytes);
 	for(int i=0; i < N; i++){
-        int posicaoRandom = rand()%bytes;
+        int posicaoRandom = random(generator);
         vetorPosicoes[i] = posicaoRandom;
         //cout << posicaoRandom << endl;
         myfile.seekg(posicaoRandom, ios::beg);
@@ -294,7 +301,8 @@ int main()
 	}
 
 	if (myfile.is_open()) {
-        testes(vetor);
+        Ordenacao::QuickSort(vetor, 0, N-1);
+        //Ordenacao::PrintVetor(vetor, N);
 	}
 
 	myfile.close();
