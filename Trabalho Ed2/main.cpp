@@ -28,7 +28,7 @@ void testes(int *vetor){
         myfileQuickSort <<"Quantidade de comparacoes "<< Ordenacao::getContadorComparacao();
         myfileQuickSort <<"\n";
         myfileQuickSort <<"Quantidade de Troca de Dados "<<Ordenacao::getContadorTrocaDados();
-        myfileQuickSort <<"\n";
+        myfileQuickSort <<"\n\n";
         myfileQuickSort.close();
     }
 
@@ -45,7 +45,7 @@ void testes(int *vetor){
         myfileHeapSort <<"Quantidade de comparacoes "<<Ordenacao::getContadorComparacao();
         myfileHeapSort <<"\n";
         myfileHeapSort <<"Quantidade de Troca de Dados "<<Ordenacao::getContadorTrocaDados();
-        myfileHeapSort <<"\n";
+        myfileHeapSort <<"\n\n";
         myfileHeapSort.close();
     }
 
@@ -62,7 +62,7 @@ void testes(int *vetor){
         myfileCombSort <<"Quantidade de comparacoes "<<Ordenacao::getContadorComparacao();
         myfileCombSort <<"\n";
         myfileCombSort <<"Quantidade de Troca de Dados "<<Ordenacao::getContadorTrocaDados();
-        myfileCombSort <<"\n";
+        myfileCombSort <<"\n\n";
         myfileCombSort.close();
     }
 //InsertionSort Teste contendo tempo de execução, contadorComparacao e contadorTrocaDeDados  com variaçoes de N
@@ -78,7 +78,7 @@ void testes(int *vetor){
         myfileInsertionSort <<"Quantidade de comparacoes "<<Ordenacao::getContadorComparacao();
         myfileInsertionSort <<"\n";
         myfileInsertionSort <<"Quantidade de Troca de Dados "<<Ordenacao::getContadorTrocaDados();
-        myfileInsertionSort <<"\n";
+        myfileInsertionSort <<"\n\n";
         myfileInsertionSort.close();
     }
 //ManualSort Teste contendo tempo de execução, contadorComparacao e contadorTrocaDeDados  com variaçoes de N
@@ -94,7 +94,7 @@ void testes(int *vetor){
         myfileManualSort <<"Quantidade de comparacoes "<<Ordenacao::getContadorComparacao();
         myfileManualSort <<"\n";
         myfileManualSort <<"Quantidade de Troca de Dados "<<Ordenacao::getContadorTrocaDados();
-        myfileManualSort <<"\n";
+        myfileManualSort <<"\n\n";
         myfileManualSort.close();
     }
 
@@ -111,7 +111,7 @@ void testes(int *vetor){
         myfileMergeSort <<"Quantidade de comparacoes "<<Ordenacao::getContadorComparacao();
         myfileMergeSort <<"\n";
         myfileMergeSort <<"Quantidade de Troca de Dados "<<Ordenacao::getContadorTrocaDados();
-        myfileMergeSort <<"\n";
+        myfileMergeSort <<"\n\n";
         myfileMergeSort.close();
     }
 
@@ -128,7 +128,7 @@ void testes(int *vetor){
         myfileQuickSortInsertion <<"Quantidade de comparacoes "<<Ordenacao::getContadorComparacao();
         myfileQuickSortInsertion <<"\n";
         myfileQuickSortInsertion <<"Quantidade de Troca de Dados "<<Ordenacao::getContadorTrocaDados();
-        myfileQuickSortInsertion <<"\n";
+        myfileQuickSortInsertion <<"\n\n";
         myfileQuickSortInsertion.close();
     }
 
