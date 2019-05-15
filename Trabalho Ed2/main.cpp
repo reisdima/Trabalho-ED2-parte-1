@@ -6,7 +6,7 @@
 #include "Registro.h"
 #include "Ordenacao.h"
 #include "HashMap.h"
-#define N 5
+#define N 100
 
 using namespace std;
 
@@ -115,25 +115,32 @@ int main()
 
 	}
 
+    //int vetor1[10] = {16, 11, 11, 9, 11, 12, 16, 2, 15, 11};
+    //int vetor2[10] = {1129, 1265, 165, 5349,1265, 800, 1080, 377, 55765, 63853};
 
 	for(int i = 0; i < N; i++){
         registros[i]->ExibirUserId();
+        //cout << vetor1[i] << " ";
 	}
 	cout << endl << endl;
 	HashMap *hashmap = new HashMap(N);
 	for(int i = 0; i < N; i++){
-        hashmap->InsertDuploHash(registros[i]->getUserId(), registros[i]->getMovieId());
+        //hashmap->InsertEncadeamentoCoalescido(vetor1[i], vetor2[i]);
+        hashmap->InsertEncadeamentoCoalescido(registros[i]->getUserId(), registros[i]->getMovieId());
 	}
-
+	 cout << endl;
+    hashmap->Print();
 	for(int i = 0; i< N; i++){
-        hashmap->SearchDuploHash(registros[i]->getUserId(), registros[i]->getMovieId());
+        //hashmap->SearchEncadeamentoCoalescido(vetor1[i], vetor2[i]);
+        hashmap->SearchEncadeamentoCoalescido(registros[i]->getUserId(), registros[i]->getMovieId());
 	}
     cout << endl;
     int i;
     int j;
     hashmap->Print();
     cin >> i >> j;
-    hashmap->RemoveDuploHash(i, j);
+    hashmap->RemoveEncadeamentoCoalescido(i, j);
+    cout << endl;
     hashmap->Print();
 	/*Ordenacao::QuickSort(registros,0,N-1);
 	for(int i = 0; i < N; i++){

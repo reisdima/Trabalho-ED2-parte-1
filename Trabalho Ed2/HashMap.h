@@ -45,6 +45,8 @@ private:
     int FuncaoHashEncadeamentoSeparado(int key);
     int FuncaoHashEncadeamentoCoalescido(int key);
 
+    int EncontrarProximaPosicao();
+
 };
 
 #endif // HASHMAP_H

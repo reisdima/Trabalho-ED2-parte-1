@@ -5,7 +5,7 @@ using namespace std;
 
 HashMap::HashMap(int capacidade)
 {
-    this->capacidade = 7;
+    this->capacidade = 107;
     tamanho = 0;
     vetor = new HashNode*[this->capacidade];
     for(int i = 0; i < this->capacidade; i++){
@@ -37,6 +37,7 @@ void HashMap::InsertSondagemLinear(int userId, int movieId){
     if(vetor[index] == NULL){
         tamanho++;
     }
+
     vetor[index] = novo;
 }
 
@@ -83,7 +84,7 @@ void HashMap::SearchSondagemLinear(int userId, int movieId){
 void HashMap::Print(){
     for(int i = 0; i < capacidade; i++){
         if(vetor[i] != NULL){
-            cout << i << ": " << vetor[i]->getUserid() << "  " << vetor[i]->getMovieId() << endl;
+            cout << i << ": " << vetor[i]->getUserid() << "  " << vetor[i]->getMovieId() <<  "  " << vetor[i]->getProximaChave() <<endl;
         }
         else{
             cout << i << " eh nulo" << endl;
@@ -319,29 +320,58 @@ int HashMap::FuncaoHashEncadeamentoCoalescido(int key){
     return key % capacidade;
 }
 
+int HashMap::EncontrarProximaPosicao(){
+    for(int i = capacidade-1; i >= 0; i--){
+        if(vetor[i] == NULL || vetor[i]->getUserid() == -1){
+            return i;
+        }
+    }
+    cout << "Retornou -1" << endl;
+    return -1;
+}
+
 void HashMap::InsertEncadeamentoCoalescido(int userId, int movieId){
+    //cout << "Inserindo " << userId << "  " << movieId << endl;
     HashNode *novo = new HashNode(userId, movieId);
     int hashIndex = FuncaoHashEncadeamentoCoalescido(userId);
-    while(vetor[hashIndex] != NULL && vetor[hashIndex]->getUserid() == -1 && ((vetor[hashIndex]->getUserid() != userId && vetor[hashIndex]->getMovieId() == movieId) ||
-                                   (vetor[hashIndex]->getUserid() == userId && vetor[hashIndex]->getMovieId() != movieId) ||
-                                    (vetor[hashIndex]->getUserid() != userId && vetor[hashIndex]->getMovieId() != movieId))){
-        cout << "a" << endl;
+    while(vetor[hashIndex] != NULL && vetor[hashIndex]->getUserid() != -1 &&( (vetor[hashIndex]->getUserid() != userId && vetor[hashIndex]->getMovieId() == movieId) ||
+                                                                                (vetor[hashIndex]->getUserid() == userId && vetor[hashIndex]->getMovieId() != movieId) ||
+                                                                                (vetor[hashIndex]->getUserid() != userId && vetor[hashIndex]->getMovieId() != movieId))){
+
+
+    //int vetor1[10] = {16, 11, 11, 9, 11, 12, 16, 2, 15, 11};
+    //int vetor2[10] = {1129, 1265, 165, 5349,1265, 800, 1080, 377, 55765, 63853};
+        //cout << vetor[hashIndex]->getUserid() << " " << vetor[hashIndex]->getMovieId() << "  ";
+        //cout << vetor[hashIndex]->getProximaChave() << " , Foi para: ";
+        if(vetor[hashIndex]->getProximaChave() == -1){
+
+            vetor[hashIndex]->setProximaChave(EncontrarProximaPosicao());
+            //cout << vetor[hashIndex]->getProximaChave() << " " ;
+        }
         hashIndex = vetor[hashIndex]->getProximaChave();
+        //cout << hashIndex << endl;
     }
-    if(vetor[hashIndex] == NULL){
+    if(vetor[hashIndex] == NULL || vetor[hashIndex]->getUserid() == -1){
         tamanho++;
+    }
+    else{
+        novo->setProximaChave(vetor[hashIndex]->getProximaChave());
     }
     vetor[hashIndex] = novo;
 }
 
 
+
+
 void HashMap::RemoveEncadeamentoCoalescido(int userId, int movieId){
     int hashIndex = FuncaoHashEncadeamentoCoalescido(userId);
     while(vetor[hashIndex] != NULL){
-        if(vetor[hashIndex]->getUserid() == userId && vetor[hashIndex]->getMovieId() == movieId){
-            int prox = vetor[hashIndex]->getProximaChave();
+        if(vetor[hashIndex]->getUserid() != -1 && vetor[hashIndex]->getUserid() == userId && vetor[hashIndex]->getMovieId() == movieId){
+            //cout << "A " << hashIndex << endl;
+            //int prox = vetor[hashIndex]->getProximaChave();
             vetor[hashIndex]->setUserId(-1);
             vetor[hashIndex]->setMovieId(-1);
+            cout << vetor[hashIndex]->getUserid() << "  " << vetor[hashIndex]->getMovieId() << endl;
             tamanho--;
             return;
             //Achou
@@ -353,14 +383,20 @@ void HashMap::RemoveEncadeamentoCoalescido(int userId, int movieId){
 }
 
 void HashMap::SearchEncadeamentoCoalescido(int userId, int movieId){
-    cout << "teste" << endl;
     int hashIndex = FuncaoHashEncadeamentoCoalescido(userId);
-    while(vetor[hashIndex] != NULL || vetor[hashIndex]->getUserid() == -1){
-        if(vetor[hashIndex]->getUserid() == userId && vetor[hashIndex]->getMovieId() == movieId){
-            cout << "UserId: " << vetor[hashIndex]->getUserid() << "  MovieId: " << vetor[hashIndex]->getMovieId() << endl;
+    while(vetor[hashIndex] != NULL){
+
+        if(vetor[hashIndex]->getUserid() != -1 && vetor[hashIndex]->getUserid() == userId && vetor[hashIndex]->getMovieId() == movieId){
+            //Achou
+            cout << "Index: " << hashIndex << " UserId: " << vetor[hashIndex]->getUserid() << " MovieId: " << vetor[hashIndex]->getMovieId() << endl;
             return;
         }
         hashIndex = vetor[hashIndex]->getProximaChave();
+        //cout << hashIndex << " ";
     }
-    cout << "Nao encontrou 2" << endl;
+    cout << "Nao achou" << endl;
+    return;
 }
+
+
+

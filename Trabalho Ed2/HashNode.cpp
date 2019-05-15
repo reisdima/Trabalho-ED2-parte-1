@@ -26,11 +26,11 @@ int HashNode::getMovieId(){
     return movieId;
 }
 
-void HashNode::setUserId(int valor) {
+void HashNode::setUserId(int userId) {
     this->userId = userId;
 }
 
-void HashNode::setMovieId(int valor) {
+void HashNode::setMovieId(int movieId) {
     this->movieId = movieId;
 }
 
