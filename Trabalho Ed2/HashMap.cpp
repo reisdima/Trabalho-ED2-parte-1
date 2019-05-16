@@ -6,7 +6,7 @@ using namespace std;
 HashMap::HashMap(int capacidade)
 {
     if(capacidade == 100){
-        this->capacidade = 101;
+        this->capacidade = 107;
     }
     if(capacidade == 1000){
         this->capacidade = 1009;
@@ -55,7 +55,6 @@ void HashMap::InsertSondagemLinear(int userId, int movieId){
     HashNode *novo = new HashNode(userId, movieId);
     //cout << "Teste" << endl;
     while(vetor[index] != NULL && (vetor[index]->getUserid() != userId || vetor[index]->getMovieId() != movieId)){
-        //cout << "a" << endl;
         k++;
         //cout << "Index: " << index << " -> ";
         index = FuncaoHashSondagemLinear(userId, k);
@@ -67,7 +66,6 @@ void HashMap::InsertSondagemLinear(int userId, int movieId){
 
     vetor[index] = novo;
 }
-
 
 void HashMap::RemoveSondagemLinear(int userId, int movieId){
     int k = 0;
@@ -85,7 +83,6 @@ void HashMap::RemoveSondagemLinear(int userId, int movieId){
     //Não achou
     return;
 }
-
 
 void HashMap::SearchSondagemLinear(int userId, int movieId){
     int k = 0;
@@ -128,8 +125,10 @@ void HashMap::InsertSondagemQuadratica(int userId, int movieId){
     HashNode *novo = new HashNode(userId, movieId);
     int index = FuncaoHashSondagemQuadratica(userId, k);
     while(vetor[index] != NULL && (vetor[index]->getUserid() != userId || vetor[index]->getMovieId() != movieId)){
+        //cout << index << " -> ";
         k++;
         index = FuncaoHashSondagemQuadratica(userId, k);
+        //cout << index << endl;
     }
     if(vetor[index] == NULL){
         tamanho++;

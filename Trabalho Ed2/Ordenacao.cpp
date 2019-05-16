@@ -104,42 +104,59 @@ void Ordenacao::ManualSort(int *vet, int left, int right){
 
 
 void Ordenacao::Merge(int *vetor, int esq, int meio, int dir){
-    int i,j,k;
-    int n1=meio-esq+1;
-    int n2=dir-meio;
+    int i, j, k;
+    int n1 = meio-esq+1;
+    int n2 = dir-meio;
 
     int esquerda[n1], direita[n2];
 
-    for(int i=0;i<n1;i++){
-        esquerda[i]=vetor[esq+i];
+    contadorComparacao++;
+    for(int i = 0; i < n1; i++){
+        esquerda[i] = vetor[esq+i];
+        contadorTrocaDeDados++;
         contadorComparacao++;
     }
-    for(j=0;j<n2;j++){
-        direita[j]=vetor[meio+1+j];
+
+    contadorComparacao++;
+    for(j=0; j < n2; j++){
+        direita[j] = vetor[meio+1+j];
+        contadorTrocaDeDados++;
         contadorComparacao++;
     }
-    i=0;j=0;k=esq;
-    while(i<n1&&j<n2){
+
+    i = 0;
+    j = 0;
+    k = esq;
+    contadorComparacao++;
+    contadorComparacao++;
+    while(i < n1 && j < n2){
         contadorComparacao++;
-        if(esquerda[i]<=direita[j]){
-            vetor[k]=esquerda[i];
+        if(esquerda[i] <= direita[j]){
+            vetor[k] = esquerda[i];
+            contadorTrocaDeDados++;
             i++;
         }
         else{
-            vetor[k]=direita[j];
+            vetor[k] = direita[j];
+            contadorTrocaDeDados++;
             j++;
         }
         k++;
         contadorComparacao++;
+        contadorComparacao++;
     }
-    while(i<n1){
-        vetor[k]=esquerda[i];
+    contadorComparacao++;
+    while(i < n1){
+        vetor[k] = esquerda[i];
+        contadorTrocaDeDados++;
         i++;
         k++;
         contadorComparacao++;
     }
+    contadorComparacao++;
     while(j<n2){
-        vetor[k]=direita[j];
+        vetor[k] = direita[j];
+        contadorTrocaDeDados++;
         j++;
         k++;
         contadorComparacao++;
@@ -150,11 +167,11 @@ void Ordenacao::Merge(int *vetor, int esq, int meio, int dir){
 
 void Ordenacao::MergeSort(int *vet, int esq, int dir){
     contadorComparacao++;
-    if(esq<dir){
-        int meio=esq+(dir-esq)/2;
-        MergeSort(vet,esq,meio);
-        MergeSort(vet,meio+1,dir);
-        Merge(vet,esq,meio,dir);
+    if(esq < dir){
+        int meio = esq + (dir - esq) / 2;
+        MergeSort(vet, esq, meio);
+        MergeSort(vet, meio + 1, dir);
+        Merge(vet, esq, meio, dir);
     }
 
 }
@@ -164,7 +181,7 @@ void Ordenacao::MergeSort(int *vet, int esq, int dir){
 
 //Função GetDist utilizada na CombSort
 int Ordenacao::GetDist(int dist){
-    dist=(dist*10)/13;
+    dist = (dist*10)/13;
     contadorComparacao++;
     if(dist<1){
         return 1;
@@ -174,19 +191,22 @@ int Ordenacao::GetDist(int dist){
 
 //Função CombSort
 void Ordenacao::CombSort(int *vetor, int n){
-    int dist=n;
-    bool troca=true;
-    while(dist!=1||troca==true){
+    int dist = n;
+    bool troca = true;
+    contadorComparacao++;
+    contadorComparacao++;
+    while(dist != 1 || troca == true){
         dist = GetDist(dist);
         troca = false;
-        for(int i=0;i<n-dist;i++){
-            contadorComparacao++;
+        contadorComparacao++;
+        for(int i=0 ; i < n-dist; i++){
             if(vetor[i]>vetor[i+dist]){
                 Troca(vetor, i, i+dist);
-                troca=true;
+                troca = true;
             }
             contadorComparacao++;
         }
+        contadorComparacao++;
         contadorComparacao++;
     }
 }
@@ -194,33 +214,38 @@ void Ordenacao::CombSort(int *vetor, int n){
 
 //Heapify utilizada na HeapSort
 void Ordenacao::Heapify(int *vetor, int n, int i){
-    int maior=i;
-    int esq=2*i+1;
-    int dir=2*i+2;
+    int maior = i;
+    int esq = 2*i+1;
+    int dir = 2*i+2;
     contadorComparacao++;
-    if(esq<n && vetor[esq]>vetor[maior]){
-        maior=esq;
+    contadorComparacao++;
+    if(esq < n && vetor[esq] > vetor[maior]){
+        maior = esq;
+    }
+
+    contadorComparacao++;
+    contadorComparacao++;
+    if(dir < n && vetor[dir] > vetor[maior]){
+        maior = dir;
     }
     contadorComparacao++;
-    if(dir<n&&vetor[dir]>vetor[maior]){
-        maior=dir;
-    }
-    contadorComparacao++;
-    if(maior!=i){
+    if(maior != i){
         Troca(vetor, i, maior);
-        Heapify(vetor,n,maior);
+        Heapify(vetor, n, maior);
     }
 }
 
 
 void Ordenacao::HeapSort(int *vetor, int n){
-    for(int i=n/2-1; i>=0;i--){
-        Heapify(vetor,n,i);
+    contadorComparacao++;
+    for(int i = n / 2-1; i >= 0; i--){
+        Heapify(vetor, n, i);
         contadorComparacao++;
     }
+    contadorComparacao++;
     for(int i=n-1;i>=0;i--){
         Troca(vetor, 0, i);
-        Heapify(vetor,i,0);
+        Heapify(vetor, i, 0);
         contadorComparacao++;
     }
 }
@@ -277,13 +302,16 @@ void Ordenacao::PrintVetor(int vetor[], int n){
 void Ordenacao::InsertionSort(int *vet, int n){
     for(int i = 1; i < n; i++){
         int pivo = vet[i];
+        contadorTrocaDeDados ++;
         int j = i - 1;
         while(j >= 0 && vet[j] > pivo){
             vet[j+1] = vet[j];
             j--;
-            contadorComparacao++;
+            contadorTrocaDeDados ++;
+            contadorComparacao = contadorComparacao + 2;
         }
         vet[j+1] = pivo;
+        contadorTrocaDeDados ++;
         contadorComparacao++;
     }
 }
