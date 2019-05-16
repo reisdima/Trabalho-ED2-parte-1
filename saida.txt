@@ -1,0 +1,148 @@
+*** Tempo total QuickSort em segundos N = 1000 --- 0 segundos
+Quantidade de comparacoes 25405
+Quantidade de Troca de Dados 7339
+
+*** Tempo total QuickSort em segundos N = 1000 --- 0 segundos
+Quantidade de comparacoes 27949
+Quantidade de Troca de Dados 7613
+
+*** Tempo total QuickSort em segundos N = 1000 --- 0 segundos
+Quantidade de comparacoes 26907
+Quantidade de Troca de Dados 7910
+
+*** Tempo total QuickSort em segundos N = 1000 --- 0 segundos
+Quantidade de comparacoes 25845
+Quantidade de Troca de Dados 7553
+
+*** Tempo total QuickSort em segundos N = 1000 --- 0 segundos
+Quantidade de comparacoes 26349
+Quantidade de Troca de Dados 7688
+
+Media Tempo 0 Media Comparacao 26491 Media Troca de Dados 7620
+*** Tempo total QuickSort em segundos N = 5000 --- 0.001 segundos
+Quantidade de comparacoes 154101
+Quantidade de Troca de Dados 44275
+
+*** Tempo total QuickSort em segundos N = 5000 --- 0.000999 segundos
+Quantidade de comparacoes 164751
+Quantidade de Troca de Dados 51431
+
+*** Tempo total QuickSort em segundos N = 5000 --- 0.001999 segundos
+Quantidade de comparacoes 162477
+Quantidade de Troca de Dados 44676
+
+*** Tempo total QuickSort em segundos N = 5000 --- 0.000999 segundos
+Quantidade de comparacoes 153615
+Quantidade de Troca de Dados 43383
+
+*** Tempo total QuickSort em segundos N = 5000 --- 0.001999 segundos
+Quantidade de comparacoes 164129
+Quantidade de Troca de Dados 50139
+
+Media Tempo 0 Media Comparacao 186305 Media Troca de Dados 54401
+*** Tempo total QuickSort em segundos N = 10000 --- 0.003 segundos
+Quantidade de comparacoes 369419
+Quantidade de Troca de Dados 115951
+
+*** Tempo total QuickSort em segundos N = 10000 --- 0.003001 segundos
+Quantidade de comparacoes 335371
+Quantidade de Troca de Dados 97537
+
+*** Tempo total QuickSort em segundos N = 10000 --- 0.003 segundos
+Quantidade de comparacoes 356515
+Quantidade de Troca de Dados 102342
+
+*** Tempo total QuickSort em segundos N = 10000 --- 0.003002 segundos
+Quantidade de comparacoes 329657
+Quantidade de Troca de Dados 91123
+
+*** Tempo total QuickSort em segundos N = 10000 --- 0.002997 segundos
+Quantidade de comparacoes 349539
+Quantidade de Troca de Dados 95966
+
+Media Tempo 0 Media Comparacao 534405 Media Troca de Dados 154985
+*** Tempo total QuickSort em segundos N = 50000 --- 0.015999 segundos
+Quantidade de comparacoes 2023983
+Quantidade de Troca de Dados 549303
+
+*** Tempo total QuickSort em segundos N = 50000 --- 0.017 segundos
+Quantidade de comparacoes 2121521
+Quantidade de Troca de Dados 653584
+
+*** Tempo total QuickSort em segundos N = 50000 --- 0.014999 segundos
+Quantidade de comparacoes 2065209
+Quantidade de Troca de Dados 543124
+
+*** Tempo total QuickSort em segundos N = 50000 --- 0.013998 segundos
+Quantidade de comparacoes 2017241
+Quantidade de Troca de Dados 578255
+
+*** Tempo total QuickSort em segundos N = 50000 --- 0.015999 segundos
+Quantidade de comparacoes 2108973
+Quantidade de Troca de Dados 633837
+
+Media Tempo 0 Media Comparacao 2601791 Media Troca de Dados 746605
+*** Tempo total QuickSort em segundos N = 100000 --- 0.035 segundos
+Quantidade de comparacoes 4875389
+Quantidade de Troca de Dados 1260621
+
+*** Tempo total QuickSort em segundos N = 100000 --- 0.034 segundos
+Quantidade de comparacoes 4764459
+Quantidade de Troca de Dados 1355343
+
+*** Tempo total QuickSort em segundos N = 100000 --- 0.032 segundos
+Quantidade de comparacoes 4449467
+Quantidade de Troca de Dados 1287250
+
+*** Tempo total QuickSort em segundos N = 100000 --- 0.036002 segundos
+Quantidade de comparacoes 4486623
+Quantidade de Troca de Dados 1345050
+
+*** Tempo total QuickSort em segundos N = 100000 --- 0.035999 segundos
+Quantidade de comparacoes 4805857
+Quantidade de Troca de Dados 1364668
+
+Media Tempo 0 Media Comparacao 7278150 Media Troca de Dados 2069192
+*** Tempo total QuickSort em segundos N = 500000 --- 0.266001 segundos
+Quantidade de comparacoes 29399429
+Quantidade de Troca de Dados 9339930
+
+*** Tempo total QuickSort em segundos N = 500000 --- 0.228001 segundos
+Quantidade de comparacoes 28833951
+Quantidade de Troca de Dados 9216331
+
+*** Tempo total QuickSort em segundos N = 500000 --- 0.216999 segundos
+Quantidade de comparacoes 28217409
+Quantidade de Troca de Dados 9205652
+
+*** Tempo total QuickSort em segundos N = 500000 --- 0.214001 segundos
+Quantidade de comparacoes 29642745
+Quantidade de Troca de Dados 9087867
+
+*** Tempo total QuickSort em segundos N = 500000 --- 0.217998 segundos
+Quantidade de comparacoes 29572581
+Quantidade de Troca de Dados 9392719
+
+Media Tempo 0 Media Comparacao 36411373 Media Troca de Dados 11317692
+*** Tempo total QuickSort em segundos N = 1000000 --- 0.511 segundos
+Quantidade de comparacoes 68885985
+Quantidade de Troca de Dados 24024327
+
+*** Tempo total QuickSort em segundos N = 1000000 --- 0.509001 segundos
+Quantidade de comparacoes 72228697
+Quantidade de Troca de Dados 23775822
+
+*** Tempo total QuickSort em segundos N = 1000000 --- 0.506999 segundos
+Quantidade de comparacoes 69377859
+Quantidade de Troca de Dados 24212819
+
+*** Tempo total QuickSort em segundos N = 1000000 --- 0.514997 segundos
+Quantidade de comparacoes 69775993
+Quantidade de Troca de Dados 24448522
+
+*** Tempo total QuickSort em segundos N = 1000000 --- 0.517001 segundos
+Quantidade de comparacoes 68877541
+Quantidade de Troca de Dados 23970266
+
+Media Tempo 0 Media Comparacao 106240588 Media Troca de Dados 35404043
+
