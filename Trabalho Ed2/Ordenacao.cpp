@@ -7,8 +7,8 @@
 
 using namespace std;
 
-int contadorComparacao=0;
-int contadorTrocaDeDados=0;
+int Ordenacao::contadorComparacao = 0;
+int Ordenacao::contadorTrocaDeDados = 0;
 
 Ordenacao::Ordenacao()
 {
@@ -20,11 +20,16 @@ Ordenacao::~Ordenacao()
     //dtor
 }
 
-int Ordenacao::getContadorComparacao(){
+void Ordenacao::zerarContadores(){
+    contadorComparacao = 0;
+    contadorTrocaDeDados = 0;
+}
+
+long long Ordenacao::getContadorComparacao(){
     return contadorComparacao;
 }
 
-int Ordenacao::getContadorTrocaDados(){
+long long Ordenacao::getContadorTrocaDados(){
     return contadorTrocaDeDados;
 }
 
@@ -38,8 +43,10 @@ void Ordenacao::Troca(int *vet, int i, int j) {
 int Ordenacao::Particiona(int *vet, int left, int right, float pivot) {
 	int leftPtr = left - 1;
 	int rightPtr = right;
+
 	for(int j = left; j < right; j++){
         contadorComparacao++;
+
         if(vet[j] <= pivot){
             leftPtr++;
             Troca(vet, leftPtr, j);
@@ -59,6 +66,7 @@ void Ordenacao::QuickSort(int *vet, int left, int right){
     else{
         int pivo = vet[right];
         int particao = Particiona(vet, left, right,pivo);
+
         QuickSort(vet, left, particao-1);
         QuickSort(vet, particao, right);
     }
