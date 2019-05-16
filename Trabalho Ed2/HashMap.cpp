@@ -5,13 +5,38 @@ using namespace std;
 
 HashMap::HashMap(int capacidade)
 {
-    this->capacidade = 107;
+    if(capacidade == 100){
+        this->capacidade = 101;
+    }
+    if(capacidade == 1000){
+        this->capacidade = 1009;
+    }
+    if(capacidade == 5000){
+        this->capacidade = 5003;
+    }
+    if(capacidade == 10000){
+        this->capacidade = 10007;
+    }
+    if(capacidade == 50000){
+        this->capacidade = 50021;
+    }
+    if(capacidade == 100000){
+        this->capacidade = 100003;
+    }
+    if(capacidade == 500000){
+        this->capacidade = 500009;
+    }
+    if(capacidade == 1000000){
+        this->capacidade = 1000003;
+    }
     tamanho = 0;
     vetor = new HashNode*[this->capacidade];
     for(int i = 0; i < this->capacidade; i++){
         vetor[i] = NULL;
     }
     dummy = new HashNode(-1, -1);
+    contadorComparacao = 0;
+    contadorTrocaDeDados = 0;
 }
 
 HashMap::~HashMap()
@@ -28,11 +53,13 @@ void HashMap::InsertSondagemLinear(int userId, int movieId){
     int k = 0;
     int index = FuncaoHashSondagemLinear(userId, k);
     HashNode *novo = new HashNode(userId, movieId);
-    while(vetor[index] != NULL && ((vetor[index]->getUserid() != userId && vetor[index]->getMovieId() == movieId) ||
-                                   (vetor[index]->getUserid() == userId && vetor[index]->getMovieId() != movieId) ||
-                                    (vetor[index]->getUserid() != userId && vetor[index]->getMovieId() != movieId))){
+    //cout << "Teste" << endl;
+    while(vetor[index] != NULL && (vetor[index]->getUserid() != userId || vetor[index]->getMovieId() != movieId)){
+        //cout << "a" << endl;
         k++;
-        int index = FuncaoHashSondagemLinear(userId, k);
+        //cout << "Index: " << index << " -> ";
+        index = FuncaoHashSondagemLinear(userId, k);
+        //cout << index << endl;
     }
     if(vetor[index] == NULL){
         tamanho++;
@@ -60,7 +87,6 @@ void HashMap::RemoveSondagemLinear(int userId, int movieId){
 }
 
 
-
 void HashMap::SearchSondagemLinear(int userId, int movieId){
     int k = 0;
     int hashIndex = FuncaoHashSondagemLinear(userId, k);
@@ -84,7 +110,7 @@ void HashMap::SearchSondagemLinear(int userId, int movieId){
 void HashMap::Print(){
     for(int i = 0; i < capacidade; i++){
         if(vetor[i] != NULL){
-            cout << i << ": " << vetor[i]->getUserid() << "  " << vetor[i]->getMovieId() <<  "  " << vetor[i]->getProximaChave() <<endl;
+            cout << i << ": " << vetor[i]->getUserid() << "  " << vetor[i]->getMovieId() << endl;
         }
         else{
             cout << i << " eh nulo" << endl;
@@ -101,9 +127,7 @@ void HashMap::InsertSondagemQuadratica(int userId, int movieId){
     int k = 0;
     HashNode *novo = new HashNode(userId, movieId);
     int index = FuncaoHashSondagemQuadratica(userId, k);
-    while(vetor[index] != NULL && ((vetor[index]->getUserid() != userId && vetor[index]->getMovieId() == movieId) ||
-                                   (vetor[index]->getUserid() == userId && vetor[index]->getMovieId() != movieId) ||
-                                    (vetor[index]->getUserid() != userId && vetor[index]->getMovieId() != movieId))){
+    while(vetor[index] != NULL && (vetor[index]->getUserid() != userId || vetor[index]->getMovieId() != movieId)){
         k++;
         index = FuncaoHashSondagemQuadratica(userId, k);
     }
@@ -167,9 +191,7 @@ void HashMap::InsertDuploHash(int userId, int movieId){
     int k = 0;
     HashNode *novo = new HashNode(userId, movieId);
     int index = FuncaoHashDuploHash(userId, k);
-    while(vetor[index] != NULL && ((vetor[index]->getUserid() != userId && vetor[index]->getMovieId() == movieId) ||
-                                   (vetor[index]->getUserid() == userId && vetor[index]->getMovieId() != movieId) ||
-                                    (vetor[index]->getUserid() != userId && vetor[index]->getMovieId() != movieId))){
+    while(vetor[index] != NULL && (vetor[index]->getUserid() != userId || vetor[index]->getMovieId() != movieId)){
         k++;
         index = FuncaoHashDuploHash(userId, k);
     }
@@ -208,7 +230,7 @@ void HashMap::SearchDuploHash(int userId, int movieId){
             return;
         }
         if(vetor[hashIndex]->getUserid() == userId && vetor[hashIndex]->getMovieId() == movieId){
-            cout << "UserId: " << vetor[hashIndex]->getUserid() << "  MovieId: " << vetor[hashIndex]->getMovieId() << endl;
+            cout << "index: " << hashIndex << " UserId: " << vetor[hashIndex]->getUserid() << "  MovieId: " << vetor[hashIndex]->getMovieId() << endl;
             return;
         }
         k++;
@@ -216,6 +238,7 @@ void HashMap::SearchDuploHash(int userId, int movieId){
     }
     cout << "Nao encontrou 2" << endl;
 }
+
 
 
 int HashMap::FuncaoHashEncadeamentoSeparado(int key){
@@ -227,9 +250,7 @@ void HashMap::InsertEncadeamentoSeparado(int userId, int movieId){
     int hashIndex = FuncaoHashEncadeamentoSeparado(userId);
     HashNode *aux = vetor[hashIndex];
     if(aux != NULL){
-        while(aux->getProx() != NULL && ((aux->getUserid() != userId && aux->getMovieId() == movieId) ||
-                                       (aux->getUserid() == userId && aux->getMovieId() != movieId) ||
-                                        (aux->getUserid() != userId && aux->getMovieId() != movieId))){
+        while(aux->getProx() != NULL && (aux->getUserid() != userId || aux->getMovieId() != movieId)){
             aux = aux->getProx();
         }
         if(aux->getProx() == NULL){
@@ -250,7 +271,6 @@ void HashMap::InsertEncadeamentoSeparado(int userId, int movieId){
         tamanho++;
     }
 }
-
 
 void HashMap::RemoveEncadeamentoSeparado(int userId, int movieId){
     int hashIndex = FuncaoHashEncadeamentoSeparado(userId);
@@ -290,7 +310,7 @@ void HashMap::SearchEncadeamentoSeparado(int userId, int movieId){
     HashNode *aux = vetor[hashIndex];
     while(aux != NULL){
         if(aux->getUserid() == userId && aux->getMovieId() == movieId){
-            cout << "UserId: " << aux->getUserid() << "  MovieId: " << aux->getMovieId() << endl;
+            cout << "index: " << hashIndex << " UserId: " << aux->getUserid() << "  MovieId: " << aux->getMovieId() << endl;
             return;
         }
         aux = aux->getProx();
@@ -400,3 +420,13 @@ void HashMap::SearchEncadeamentoCoalescido(int userId, int movieId){
 
 
 
+void HashMap::PrintEncadeamentoCoalescido(){
+    for(int i = 0; i < capacidade; i++){
+        if(vetor[i] != NULL){
+            cout << i << ": " << vetor[i]->getUserid() << "  " << vetor[i]->getMovieId() <<  "  " << vetor[i]->getProximaChave() <<endl;
+        }
+        else{
+            cout << i << " eh nulo" << endl;
+        }
+    }
+}

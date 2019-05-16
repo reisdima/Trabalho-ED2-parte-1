@@ -72,6 +72,54 @@ void realizarLeitura(fstream *myfile, Registro **vetor, int N, int bytes){
     }
 }
 
+void realizarLeitura(fstream *myfile, HashMap *hashMap, int N, int bytes){
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    mt19937 generator(seed);
+    uniform_int_distribution<uint32_t> random(1, bytes);
+
+    string str;
+    string delimitador = ",";
+
+    for(int i = 0; i < N; i++){
+        int contador = 0;
+        int userId ;
+        int movieId ;
+        float rating;
+        int timestamp;
+
+        int posicaoRandom = random(generator);
+        myfile->seekg(posicaoRandom, ios::beg);
+        getline(*myfile, str);
+        getline(*myfile, str);
+        int pos = 0;
+        istringstream iss;
+        string aux;
+        while(contador < 2){
+            pos = str.find(delimitador);
+            if(contador == 0){
+                aux = str.substr(0, str.find(delimitador));
+                iss.str(aux);
+                iss >> userId;
+                iss.clear();
+                str.erase(0, pos + delimitador.length());
+            }
+            else if(contador == 1){
+                aux = str.substr(0, str.find(delimitador));
+                iss.str(aux);
+                iss >> movieId;
+                iss.clear();
+                //str.erase(str.begin(), str.end());
+            }
+            contador++;
+        }
+        //cout << "Teste" << endl;
+        //cout << "UserId: " << userId << " MovieId: " << movieId << endl;
+        //cout << "STR: " << str << endl;
+        //cout << "UserId: " << userId << "  movieId: " << movieId << "  Rating: " << rating << "  Timestamp: " << timestamp << endl;
+        hashMap->InsertSondagemQuadratica(userId, movieId);
+    }
+}
+
 void realizarLeitura(fstream *myfile, int *vetor, int N, int bytes){
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     mt19937 generator(seed);
@@ -163,8 +211,6 @@ void CenarioUm(fstream *myfile, int bytes){
     Ordenacao::zerarContadores();
     //cout << Ordenacao::contadorComparacao << "  " << Ordenacao::contadorTrocaDeDados << endl;*/
 }
-
-
 
 
 void CenarioDois(fstream *myfile, int bytes){
@@ -268,20 +314,26 @@ void CenarioDois(fstream *myfile, int bytes){
 
 void CenarioTres(fstream *myfile, int bytes){
 
-    int vetN[7] = {1000,5000,10000,50000,100000,500000,1000000};
+    int vetN[1] = {10000};
     int *vetor;
     long mediaT=0;
     long long mediaC=0;
     long long mediaD=0;
-    for(int i = 0; i < 7; i++){
-//QuickSort Teste contendo tempo de execução, contadorComparacao e contadorTrocaDeDados  com variaçoes de N
+    for(int i = 0; i < 1; i++){
+    //QuickSort Teste contendo tempo de execução, contadorComparacao e contadorTrocaDeDados  com variaçoes de N
         for(int j = 0; j < 5; j++){
             vetor = new int[vetN[i]];
+            steady_clock::time_point inicio;
+            steady_clock::time_point fim;
+            duration<double> tempoTotal;
+            duration<double> tempoTotal2;
+            inicio = steady_clock::now();
             realizarLeitura(myfile, vetor, vetN[i], bytes);
+            fim = steady_clock::now();
             ofstream myfileQuickSort ("saida3.txt", ios::out | ios::app);
-            steady_clock::time_point inicio = steady_clock::now();
-            steady_clock::time_point fim = steady_clock::now();
-            duration<double> tempoTotal = duration_cast<duration<double>>(fim-inicio);
+
+
+            tempoTotal2 = duration_cast<duration<double>>(fim-inicio);
 
             inicio = steady_clock::now();
             Ordenacao::QuickSort(vetor, 0, vetN[i] - 1);
@@ -295,6 +347,8 @@ void CenarioTres(fstream *myfile, int bytes){
             if (myfileQuickSort.is_open()){
                 myfileQuickSort << "*** Tempo total QuickSort em segundos N = "<< vetN[i] <<" --- ";
                 myfileQuickSort << tempoTotal.count()<<" segundos\n";
+                myfileQuickSort << "*** Tempo total QuickSort Leitura em segundos N = "<< vetN[i] <<" --- ";
+                myfileQuickSort << tempoTotal2.count()<<" segundos\n";
                 myfileQuickSort <<"Quantidade de comparacoes "<< Ordenacao::getContadorComparacao() << "\n";
                 myfileQuickSort <<"Quantidade de Troca de Dados "<<Ordenacao::getContadorTrocaDados();
                 myfileQuickSort <<"\n\n";
@@ -310,6 +364,9 @@ void CenarioTres(fstream *myfile, int bytes){
             myfileQuickSort <<"Media Tempo "<< mediaT/5<<" Media Comparacao "<<mediaC/5<<" Media Troca de Dados "<<mediaD/5;
         }
         myfileQuickSort.close();
+        mediaC = 0;
+        mediaT = 0;
+        mediaD = 0;/*
 //HeapSort Teste contendo tempo de execução, contadorComparacao e contadorTrocaDeDados  com variaçoes de N
         for(int j = 0; j < 5; j++){
             vetor = new int[vetN[i]];
@@ -346,6 +403,9 @@ void CenarioTres(fstream *myfile, int bytes){
             myfileHeapSort <<"Media Tempo "<< mediaT/5<<" Media Comparacao "<<mediaC/5<<" Media Troca de Dados "<<mediaD/5;
         }
         myfileHeapSort.close();
+        mediaC = 0;
+        mediaT = 0;
+        mediaD = 0;
 //CombSort Teste contendo tempo de execução, contadorComparacao e contadorTrocaDeDados  com variaçoes de N
         for(int j = 0; j < 5; j++){
             vetor = new int[vetN[i]];
@@ -382,7 +442,9 @@ void CenarioTres(fstream *myfile, int bytes){
             myfileCombSort <<"Media Tempo "<< mediaT/5<<" Media Comparacao "<<mediaC/5<<" Media Troca de Dados "<<mediaD/5;
         }
         myfileCombSort.close();
-
+        mediaC = 0;
+        mediaT = 0;
+        mediaD = 0;
 //InsertionSort Teste contendo tempo de execução, contadorComparacao e contadorTrocaDeDados  com variaçoes de N
         for(int j = 0; j < 5; j++){
             vetor = new int[vetN[i]];
@@ -419,42 +481,9 @@ void CenarioTres(fstream *myfile, int bytes){
             myfileInsertionSort <<"Media Tempo "<< mediaT/5<<" Media Comparacao "<<mediaC/5<<" Media Troca de Dados "<<mediaD/5;
         }
         myfileInsertionSort.close();
-//ManualSort Teste contendo tempo de execução, contadorComparacao e contadorTrocaDeDados  com variaçoes de N
-        for(int j = 0; j < 5; j++){
-            vetor = new int[vetN[i]];
-            realizarLeitura(myfile, vetor, vetN[i], bytes);
-            ofstream myfileManualSort ("saida3.txt", ios::out | ios::app);
-            steady_clock::time_point inicio = steady_clock::now();
-            steady_clock::time_point fim = steady_clock::now();
-            duration<double> tempoTotal = duration_cast<duration<double>>(fim-inicio);
-
-            inicio = steady_clock::now();
-            Ordenacao::ManualSort(vetor, 0, vetN[i] - 1);
-            fim = steady_clock::now();
-            tempoTotal = duration_cast<duration<double>>(fim-inicio);
-
-            mediaT=mediaT+tempoTotal.count();
-            mediaC=mediaC+Ordenacao::getContadorComparacao();
-            mediaD=mediaD+Ordenacao::getContadorTrocaDados();
-
-            if (myfileManualSort.is_open()){
-                myfileManualSort << "*** Tempo total ManualSort em segundos N = "<< vetN[i] <<" --- ";
-                myfileManualSort << tempoTotal.count()<<" segundos\n";
-                myfileManualSort <<"Quantidade de comparacoes "<< Ordenacao::getContadorComparacao() << "\n";
-                myfileManualSort <<"Quantidade de Troca de Dados "<<Ordenacao::getContadorTrocaDados();
-                myfileManualSort <<"\n\n";
-            }
-            else{
-                cout << "Arquivo nao esta aberto" << endl;
-            }
-            myfileManualSort.close();
-            Ordenacao::zerarContadores();
-        }
-        ofstream myfileManualSort ("saida3.txt", ios::out | ios::app);
-        if (myfileManualSort.is_open()){
-            myfileManualSort <<"Media Tempo "<< mediaT/5<<" Media Comparacao "<<mediaC/5<<" Media Troca de Dados "<<mediaD/5;
-        }
-        myfileManualSort.close();
+        mediaC = 0;
+        mediaT = 0;
+        mediaD = 0;
 //MergeSort Teste contendo tempo de execução, contadorComparacao e contadorTrocaDeDados  com variaçoes de N
         for(int j = 0; j < 5; j++){
             vetor = new int[vetN[i]];
@@ -491,6 +520,9 @@ void CenarioTres(fstream *myfile, int bytes){
             myfileMergeSort <<"Media Tempo "<< mediaT/5<<" Media Comparacao "<<mediaC/5<<" Media Troca de Dados "<<mediaD/5;
         }
         myfileMergeSort.close();
+        mediaC = 0;
+        mediaT = 0;
+        mediaD = 0;
 //QuickSortInsertion Teste contendo tempo de execução, contadorComparacao e contadorTrocaDeDados  com variaçoes de N
         for(int j = 0; j < 5; j++){
             vetor = new int[vetN[i]];
@@ -527,12 +559,51 @@ void CenarioTres(fstream *myfile, int bytes){
             myfileQuickSortInsertion <<"Media Tempo "<< mediaT/5<<" Media Comparacao "<<mediaC/5<<" Media Troca de Dados "<<mediaD/5;
         }
         myfileMergeSort.close();
+        mediaC = 0;
+        mediaT = 0;
+        mediaD = 0;*/
     }
 }
 
 
-void CenarioQuatro(int *vetor){
+void CenarioQuatro(fstream *myfile, int bytes){
+    int vetN[1] = {1000};
+    for(int i = 0; i < 1; i++){
+        for(int j = 0; j < 1; j++){
+            HashMap *hashMap = new HashMap(vetN[i]);
+            realizarLeitura(myfile, hashMap, vetN[i], bytes);
+            hashMap->Print();
+            int a;
+            int b;
+            cin >> a >> b;
+            hashMap->SearchSondagemQuadratica(a, b);
+            //Ordenacao::PrintVetor(vetor, vetN[i]);
 
+            /*ofstream myfileQuickSort ("saida.txt", ios::out | ios::app);
+            steady_clock::time_point inicio = steady_clock::now();
+            steady_clock::time_point fim = steady_clock::now();
+            duration<double> tempoTotal = duration_cast<duration<double>>(fim-inicio);
+
+            inicio = steady_clock::now();
+            Ordenacao::QuickSort(vetor, 0, vetN[i] - 1);
+            fim = steady_clock::now();
+            tempoTotal = duration_cast<duration<double>>(fim-inicio);
+            if (myfileQuickSort.is_open()){
+                myfileQuickSort << "*** Tempo total QuickSort em segundos N = "<< vetN[i] <<" --- ";
+                myfileQuickSort << tempoTotal.count()<<" segundos\n";
+                myfileQuickSort <<"Quantidade de comparacoes "<< Ordenacao::getContadorComparacao() << "\n";
+                myfileQuickSort <<"Quantidade de Troca de Dados "<<Ordenacao::getContadorTrocaDados();
+                myfileQuickSort <<"\n\n";
+            }
+            else{
+                cout << "teste" << endl;
+            }*/
+            //cout << Ordenacao::contadorComparacao << "  " << Ordenacao::contadorTrocaDeDados << endl;
+            //myfileQuickSort.close();
+            //Ordenacao::zerarContadores();
+            //cout << Ordenacao::contadorComparacao << "  " << Ordenacao::contadorTrocaDeDados << endl;
+        }
+    }
 }
 
 void Menu (fstream *myfile){
@@ -557,7 +628,7 @@ void Menu (fstream *myfile){
             break;
         case 4:
             cout << "Analise de cenario 4:" << endl;
-            //CenarioQuatro(vetor);
+            CenarioQuatro(myfile, bytes);
             break;
 
 

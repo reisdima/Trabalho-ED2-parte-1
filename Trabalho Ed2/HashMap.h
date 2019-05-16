@@ -6,6 +6,8 @@
 class HashMap
 {
 public:
+
+
     HashMap(int capacidade);
     ~HashMap();
 
@@ -31,8 +33,11 @@ public:
 
     void Print();
     void PrintEncadeamentoSeparado();
+    void PrintEncadeamentoCoalescido();
 
 private:
+    int contadorComparacao;
+    int contadorTrocaDeDados;
     HashNode **vetor;
     HashNode *dummy;
     int tamanho;
