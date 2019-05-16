@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <fstream>
 #include <sstream>
+#include <random>
+#include <chrono>
 
 using namespace std;
 
@@ -44,7 +46,7 @@ int Ordenacao::Particiona(int *vet, int left, int right, float pivot) {
 	int leftPtr = left - 1;
 	int rightPtr = right;
 
-	for(int j = left; j < right; j++){
+	for(int j = left; j < right-1; j++){
         contadorComparacao++;
 
         if(vet[j] <= pivot){
@@ -73,8 +75,19 @@ void Ordenacao::QuickSort(int *vet, int left, int right){
 }
 
 
-void Ordenacao::ManualSort(int *vet, int left, int right){
-    int tamanho = right - left + 1;
+void Ordenacao::ManualSort(int *vetor, int *vetorValores, int *vetorPosicoes, int tamanho){
+
+    for(int i = 0; i < tamanho-1; i++){
+        for(int j = i+1; j < tamanho; j++){
+            if(vetorValores[i] > vetorValores[j] && vetorPosicoes[i] < vetorPosicoes[j]){
+                Troca(vetorValores, i, j);
+                //Troca(vetorPosicoes, i, j);
+                Troca(vetor, vetorPosicoes[i], vetorPosicoes[j]);
+            }
+        }
+    }
+
+    /*int tamanho = right - left + 1;
     contadorComparacao++;
     if(tamanho <= 1)
         return;
@@ -98,7 +111,44 @@ void Ordenacao::ManualSort(int *vet, int left, int right){
         if(vet[1] < vet[0]){
             Troca(vet, 1, 0);
         }
+    }*/
+}
+
+void Ordenacao::ManualSort(int *vetorValores, int tamanho){
+
+    for(int i = 0; i < tamanho-1; i++){
+        for(int j = i+1; j < tamanho; j++){
+            if(vetorValores[i] > vetorValores[j]){
+                Troca(vetorValores, i, j);
+            }
+        }
     }
+
+    /*int tamanho = right - left + 1;
+    contadorComparacao++;
+    if(tamanho <= 1)
+        return;
+    contadorComparacao++;
+    if(tamanho == 2){
+        contadorComparacao++;
+        if(vet[right] < vet[left])
+            Troca(vet, left, right);
+        return;
+    }
+    else{
+        contadorComparacao++;
+        if(vet[2] < vet[0]){
+        Troca(vet, 2, 0);
+        }
+        contadorComparacao++;
+        if(vet[2] < vet[1]){
+            Troca(vet, 2, 1);
+        }
+        contadorComparacao++;
+        if(vet[1] < vet[0]){
+            Troca(vet, 1, 0);
+        }
+    }*/
 }
 
 
@@ -297,8 +347,6 @@ void Ordenacao::PrintVetor(int vetor[], int n){
     cout << "\n";
 }
 
-
-
 void Ordenacao::InsertionSort(int *vet, int n){
     for(int i = 1; i < n; i++){
         int pivo = vet[i];
@@ -346,7 +394,54 @@ int Ordenacao::Particao(int *vet, int left, int right, float pivot) {
 	return (leftPtr + 1);
 }
 
-int Ordenacao::Mediana(int *vet, int left, int right, int k, int N){
+bool Ordenacao::Teste(int *vetor, int valor, int i){
+    for(int j = 0; j <= i; j++){
+        if(vetor[j] == valor)
+            return true;
+    }
+    return false;
+}
+
+int Ordenacao::Mediana(int *vetor, int left, int right, int k, int tamanho){
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    mt19937 generator(seed);
+    uniform_int_distribution<uint32_t> random(0, tamanho-1);
+
+    int *vetorValores = new int[k];
+    int *vetorPosicoes = new int[k];
+    for(int i = 0; i < k; i++){
+        int posicao = random(generator);
+        if(Teste(vetorPosicoes, posicao, i)){
+            //cout << "a" << endl;
+            i--;
+        }
+        else{
+            //cout << posicao << endl;
+            vetorPosicoes[i] = posicao;
+            vetorValores[i] = vetor[vetorPosicoes[i]];
+        }
+    }
+    //cout << "teste" << endl;
+    for(int i = 0; i < k; i++){
+        //cout << vetorValores[i] << " ";
+    }
+    ManualSort(vetor, vetorValores, vetorPosicoes, k);
+    //cout << endl;
+    for(int i = 0; i < tamanho; i++){
+        cout << vetor[i] << " ";
+    }
+    cout << endl;
+    int meio;
+    if(k == 3)
+        meio = 1;
+    else
+        meio = 2;
+    //cout << meio << endl;
+    cout << "R: " <<  right << endl;
+    Troca(vetor, vetorPosicoes[meio], right);
+    //cout << "e" << endl;
+    cout << vetor[right] << endl << endl;
+    return vetor[right];
     /*
     int mid = (right+left)/2;
     if(vet[mid] < vet[left]){
@@ -358,7 +453,7 @@ int Ordenacao::Mediana(int *vet, int left, int right, int k, int N){
     if(vet[right] < vet[mid]){
         Troca(vet, right, mid);
     }
-    Troca(vet, mid, right-1);*/
+    Troca(vet, mid, right-1);
 
     int *random = new int(k);
 
@@ -435,14 +530,14 @@ void Ordenacao::QuickSortMediana(int *vet, int left, int right, int k, int n){
     int tamanho = right - left + 1;
     contadorComparacao++;
     if(tamanho <= 3)
-        ManualSort(vet, left, right);
+        ManualSort(vet, tamanho);
     else{
-
-         int mediana = Mediana(vet, left, right, k, n);
+        int mediana = Mediana(vet, left, right, k, tamanho);
+        //cout << "teste" << endl;
+        cout << "Mediana: " << mediana << endl;
         int particao = Particao(vet, left, right, mediana);
-
-        QuickSortMediana(vet, left, particao-1, k,n);
-        QuickSortMediana(vet, particao, right, k,n);
+        QuickSortMediana(vet, left, particao-1, k, n);
+        QuickSortMediana(vet, particao + 1, right, k, n);
     }
 }
 

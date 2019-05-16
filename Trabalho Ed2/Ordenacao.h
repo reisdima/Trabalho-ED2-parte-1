@@ -13,7 +13,8 @@ public:
     static void QuickSort(int *vet, int left, int right);
     static void QuickSort(Registro **vet, int left, int right);
 
-    static void ManualSort(int *vet, int left, int right);
+    static void ManualSort(int *vetor, int *vetorValores, int *vetorPosicoes, int tamanho);
+    static void ManualSort(int *vetorValores, int tamanho);
     static void MergeSort(int *vet, int left, int right);
     static void CombSort(int *vet, int n);
     static void HeapSort(int *vet, int n);
@@ -23,7 +24,7 @@ public:
     static void QuickSortInsertion(int *vet, int left, int right);
     static void QuickSortMediana(int *vet, int left, int right, int k, int n );
 
-    static int Mediana(int *vet, int left, int right, int k, int n);
+    static int Mediana(int *vet, int left, int right, int k, int tamanho);
     static int Particao(int *vet, int left, int right, float pivot);
     static void imprimeContadores();
 
@@ -45,6 +46,8 @@ private:
 
     static void Troca(Registro **vet, int i, int j);
     static int Particiona(Registro **vet, int left, int right, int pivot);
+
+    static bool Teste(int *vetor, int valor, int i);
 
 };
 

@@ -429,3 +429,9 @@ void HashMap::PrintEncadeamentoCoalescido(){
         }
     }
 }
+
+
+long long HashMap::calculaMemoria(){
+    //cout << sizeof(**vetor) * tamanho + sizeof(*this) << endl;
+    return (sizeof(**vetor) * tamanho + sizeof(*this));
+}

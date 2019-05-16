@@ -35,6 +35,8 @@ public:
     void PrintEncadeamentoSeparado();
     void PrintEncadeamentoCoalescido();
 
+    long long calculaMemoria();
+
 private:
     int contadorComparacao;
     int contadorTrocaDeDados;
