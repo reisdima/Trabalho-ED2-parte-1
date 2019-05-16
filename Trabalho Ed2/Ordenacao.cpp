@@ -25,11 +25,11 @@ void Ordenacao::zerarContadores(){
     contadorTrocaDeDados = 0;
 }
 
-int Ordenacao::getContadorComparacao(){
+long long Ordenacao::getContadorComparacao(){
     return contadorComparacao;
 }
 
-int Ordenacao::getContadorTrocaDados(){
+long long Ordenacao::getContadorTrocaDados(){
     return contadorTrocaDeDados;
 }
 

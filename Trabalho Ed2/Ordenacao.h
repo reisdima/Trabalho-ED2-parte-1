@@ -27,8 +27,8 @@ public:
     static int Particao(int *vet, int left, int right, float pivot);
     static void imprimeContadores();
 
-    static int getContadorTrocaDados();
-    static int getContadorComparacao();
+    static long long getContadorTrocaDados();
+    static long long getContadorComparacao();
     static void zerarContadores();
 
 
